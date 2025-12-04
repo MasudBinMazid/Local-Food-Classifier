@@ -738,6 +738,15 @@ def main():
         
         st.markdown("---")
         st.markdown("### 🔬 Advanced Settings")
+        
+        st.markdown("#### 📸 Multi-Image Mode")
+        st.markdown("""
+        <small>Upload 2-5 images of the same food from different angles. 
+        The AI will analyze all images and combine predictions for **higher accuracy**!</small>
+        """, unsafe_allow_html=True)
+        
+        st.markdown("---")
+        
         use_tta = st.checkbox(
             "Use Test-Time Augmentation",
             value=True,
@@ -850,24 +859,119 @@ def main():
         col1, col2 = st.columns([1, 1])
         
         with col1:
-            st.markdown("### 📤 Upload Food Image")
-            uploaded_image = st.file_uploader(
-                "Choose an image...", 
-                type=['jpg', 'jpeg', 'png', 'webp'],
-                label_visibility="collapsed"
+            st.markdown("### 📤 Upload Food Image(s)")
+            
+            # Toggle for multi-image mode
+            multi_image_mode = st.checkbox(
+                "📸 Upload Multiple Images",
+                value=False,
+                help="Upload 2-5 images of the same food from different angles for better accuracy"
             )
             
-            # Clear prediction if image is removed
-            if uploaded_image is None and 'prediction' in st.session_state:
-                del st.session_state['prediction']
-            
-            if uploaded_image:
-                image = Image.open(uploaded_image).convert('RGB')
-                st.image(image, caption="📸 Your uploaded image", use_container_width=True)
+            if multi_image_mode:
+                uploaded_images = st.file_uploader(
+                    "Choose 2-5 images of the same food from different angles...", 
+                    type=['jpg', 'jpeg', 'png', 'webp'],
+                    accept_multiple_files=True,
+                    label_visibility="collapsed"
+                )
                 
-                if st.button("🔍 Analyze Food", type="primary", use_container_width=True):
-                    use_tta = st.session_state.get('use_tta', True)
-                    num_aug = st.session_state.get('num_augmentations', 5)
+                # Clear prediction if images are removed
+                if not uploaded_images and 'prediction' in st.session_state:
+                    del st.session_state['prediction']
+                
+                if uploaded_images:
+                    if len(uploaded_images) > 5:
+                        st.warning("⚠️ Please upload maximum 5 images. Using first 5 images only.")
+                        uploaded_images = uploaded_images[:5]
+                    
+                    # Display all uploaded images in a grid
+                    st.markdown(f"**{len(uploaded_images)} image(s) uploaded:**")
+                    cols = st.columns(min(len(uploaded_images), 3))
+                    for idx, img_file in enumerate(uploaded_images):
+                        with cols[idx % 3]:
+                            img = Image.open(img_file).convert('RGB')
+                            st.image(img, caption=f"Image {idx+1}", use_container_width=True)
+                    
+                    if st.button("🔍 Analyze All Images", type="primary", use_container_width=True):
+                        use_tta = st.session_state.get('use_tta', True)
+                        num_aug = st.session_state.get('num_augmentations', 5)
+                        
+                        status_text = f"🧠 AI is analyzing {len(uploaded_images)} images with ensemble prediction..."
+                        with st.spinner(status_text):
+                            progress_bar = st.progress(0)
+                            
+                            # Predict on each image
+                            all_predictions = []
+                            all_confidences = []
+                            
+                            for idx, img_file in enumerate(uploaded_images):
+                                img = Image.open(img_file).convert('RGB')
+                                pred_class, confidence, top3 = predict_food(
+                                    img, model, class_names, 
+                                    use_tta=use_tta, 
+                                    num_augmentations=num_aug
+                                )
+                                all_predictions.append((pred_class, confidence, top3))
+                                all_confidences.append(confidence)
+                                
+                                # Update progress
+                                progress_bar.progress((idx + 1) / len(uploaded_images))
+                                time.sleep(0.1)
+                            
+                            progress_bar.empty()
+                            
+                            # Ensemble prediction: majority vote with confidence weighting
+                            from collections import Counter
+                            pred_classes = [p[0] for p in all_predictions]
+                            
+                            # Weighted voting based on confidence
+                            class_scores = {}
+                            for pred_class, confidence, _ in all_predictions:
+                                class_scores[pred_class] = class_scores.get(pred_class, 0) + confidence
+                            
+                            # Get final prediction
+                            final_class = max(class_scores.items(), key=lambda x: x[1])[0]
+                            final_confidence = class_scores[final_class] / len(uploaded_images)
+                            
+                            # Get consensus top 3
+                            all_top3_classes = {}
+                            for _, _, top3 in all_predictions:
+                                for food, conf in top3:
+                                    all_top3_classes[food] = all_top3_classes.get(food, 0) + conf
+                            
+                            final_top3 = sorted(all_top3_classes.items(), key=lambda x: x[1], reverse=True)[:3]
+                            final_top3 = [(food, score/len(uploaded_images)) for food, score in final_top3]
+                        
+                        st.session_state['prediction'] = {
+                            'class': final_class,
+                            'confidence': final_confidence,
+                            'top3': final_top3,
+                            'multi_image': True,
+                            'num_images': len(uploaded_images),
+                            'individual_predictions': all_predictions
+                        }
+                        st.rerun()
+            
+            else:
+                # Single image mode
+                uploaded_image = st.file_uploader(
+                    "Choose an image...", 
+                    type=['jpg', 'jpeg', 'png', 'webp'],
+                    label_visibility="collapsed"
+                )
+                
+                # Clear prediction if image is removed
+                if uploaded_image is None and 'prediction' in st.session_state:
+                    del st.session_state['prediction']
+                
+                if uploaded_image:
+                    image = Image.open(uploaded_image).convert('RGB')
+                    st.image(image, caption="📸 Your uploaded image", use_container_width=True)
+                    
+                    if st.button("🔍 Analyze Food", type="primary", use_container_width=True):
+                        use_tta = st.session_state.get('use_tta', True)
+                        num_aug = st.session_state.get('num_augmentations', 5)
                     
                     status_text = "🧠 AI is analyzing with Test-Time Augmentation..." if use_tta else "🧠 AI is analyzing..."
                     with st.spinner(status_text):
@@ -896,6 +1000,10 @@ def main():
             if 'prediction' in st.session_state:
                 pred = st.session_state['prediction']
                 
+                # Show multi-image info if applicable
+                if pred.get('multi_image', False):
+                    st.info(f"📸 **Multi-Image Analysis:** Analyzed {pred['num_images']} images using ensemble prediction for higher accuracy!")
+                
                 # Main prediction
                 st.markdown(f"""
                 <div class="prediction-badge">
@@ -904,6 +1012,13 @@ def main():
                 """, unsafe_allow_html=True)
                 
                 st.progress(pred['confidence'] / 100, text=f"Confidence: {pred['confidence']:.1f}%")
+                
+                # Show individual predictions if multi-image
+                if pred.get('multi_image', False):
+                    with st.expander(f"📋 Individual Image Results ({pred['num_images']} images)"):
+                        for idx, (pred_class, confidence, _) in enumerate(pred.get('individual_predictions', []), 1):
+                            agreement = "✅" if pred_class == pred['class'] else "⚠️"
+                            st.markdown(f"{agreement} **Image {idx}:** {pred_class.replace('_', ' ').title()} ({confidence:.1f}%)")
                 
                 # Top 3
                 st.markdown("#### 🥇 Top 3 Predictions")

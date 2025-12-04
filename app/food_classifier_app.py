@@ -26,28 +26,21 @@ st.set_page_config(
 st.markdown("""
 <style>
     /* Import Google Fonts */
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600;700&display=swap');
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
     
     /* Global Dark Theme */
     .stApp {
-        background: linear-gradient(135deg, #0f0c29 0%, #302b63 50%, #24243e 100%);
-        color: #e0e0e0;
-        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+        font-family: 'Inter', sans-serif;
     }
     
-    /* Override all text colors for dark theme */
-    .stApp, .stApp p, .stApp span, .stApp div, .stApp label {
+    /* Global text colors */
+    .stApp, .stApp p, .stApp span, .stApp div, .stApp label, .stMarkdown {
         color: #e0e0e0 !important;
     }
     
-    /* Headers */
-    .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6 {
+    h1, h2, h3, h4, h5, h6 {
         color: #ffffff !important;
-    }
-    
-    /* Input labels and help text */
-    .stApp label, .stApp .stMarkdown {
-        color: #d0d0d0 !important;
     }
     
     /* Hide Streamlit branding */
@@ -55,114 +48,88 @@ st.markdown("""
     footer {visibility: hidden;}
     header {visibility: hidden;}
     
-    /* Main Header - Glassmorphism Effect */
+    /* Main Header */
     .main-header {
         background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 2rem;
-        border-radius: 20px;
+        padding: 1.5rem;
+        border-radius: 12px;
         text-align: center;
-        color: white;
         margin-bottom: 2rem;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        animation: fadeInDown 0.8s ease-out;
+        border: 1px solid rgba(255, 255, 255, 0.1);
     }
     
     .main-header h1 {
-        font-size: clamp(2rem, 5vw, 3.5rem);
-        margin-bottom: 0.5rem;
+        font-size: clamp(1.8rem, 4vw, 2.5rem);
+        margin: 0 0 0.5rem 0;
         font-weight: 700;
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-        -webkit-background-clip: text;
-        -webkit-text-fill-color: transparent;
-        background-clip: text;
+        color: #ffffff !important;
     }
     
     .main-header p {
-        font-size: clamp(1rem, 2.5vw, 1.3rem);
-        color: #b0b0b0;
-        font-weight: 300;
+        font-size: clamp(0.9rem, 2vw, 1.1rem);
+        color: #b0b0b0 !important;
+        margin: 0;
     }
     
-    /* Glassmorphism Food Card */
+    /* Food Card */
     .food-card {
-        background: rgba(255, 255, 255, 0.08);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
+        background: rgba(255, 255, 255, 0.05);
         padding: 1.5rem;
-        border-radius: 20px;
-        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
-        margin: 1.5rem 0;
+        border-radius: 12px;
+        margin: 1rem 0;
         border-left: 4px solid #667eea;
-        transition: transform 0.3s ease, box-shadow 0.3s ease;
-        animation: fadeIn 0.6s ease-out;
     }
     
-    .food-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 12px 40px rgba(102, 126, 234, 0.4);
+    .food-card h3 {
+        color: #ffffff !important;
+        margin-top: 0;
     }
     
-    /* Gradient Prediction Badge */
+    .food-card p {
+        color: #d0d0d0 !important;
+    }
+    
+    /* Prediction Badge */
     .prediction-badge {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 50%, #f093fb 100%);
-        padding: 1rem 2rem;
-        border-radius: 50px;
-        color: white;
-        font-size: clamp(1.2rem, 3vw, 1.8rem);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        padding: 0.75rem 1.5rem;
+        border-radius: 30px;
+        color: white !important;
+        font-size: clamp(1.1rem, 3vw, 1.5rem);
         font-weight: 700;
         display: inline-block;
         margin: 1rem 0;
-        word-break: break-word;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.5);
-        animation: pulse 2s infinite;
     }
     
     /* Info Section */
     .info-section {
         background: rgba(255, 255, 255, 0.05);
-        backdrop-filter: blur(10px);
-        border: 1px solid rgba(255, 255, 255, 0.1);
-        padding: 1.5rem;
-        border-radius: 15px;
-        margin: 1rem 0;
-        font-size: clamp(0.9rem, 2vw, 1.05rem);
-        color: #d0d0d0;
-        transition: all 0.3s ease;
+        padding: 1rem;
+        border-radius: 10px;
+        margin: 0.75rem 0;
+        color: #d0d0d0 !important;
     }
     
-    .info-section:hover {
-        background: rgba(255, 255, 255, 0.08);
-        border-color: rgba(102, 126, 234, 0.3);
-    }
-    
-    /* Modern Gradient Buttons */
+    /* Buttons */
     .stButton>button {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
-        border-radius: 50px;
-        padding: 1rem 2rem;
-        font-weight: 600;
-        border: none;
-        box-shadow: 0 4px 15px rgba(102, 126, 234, 0.4);
-        transition: all 0.3s ease;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        color: white !important;
+        border-radius: 25px !important;
+        padding: 0.75rem 1.5rem !important;
+        font-weight: 600 !important;
+        border: none !important;
         width: 100%;
-        font-size: clamp(1rem, 2.5vw, 1.2rem);
-        text-transform: uppercase;
-        letter-spacing: 1px;
+        transition: all 0.3s ease;
     }
     
     .stButton>button:hover {
-        transform: translateY(-3px);
-        box-shadow: 0 8px 25px rgba(102, 126, 234, 0.6);
-        background: linear-gradient(135deg, #764ba2 0%, #667eea 100%);
+        transform: translateY(-2px);
+        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
     }
     
-    /* Sidebar Styling */
+    /* Sidebar */
     section[data-testid="stSidebar"] {
-        background: rgba(15, 12, 41, 0.95) !important;
-        backdrop-filter: blur(10px);
+        background: rgba(20, 20, 40, 0.95) !important;
         border-right: 1px solid rgba(255, 255, 255, 0.1);
     }
     
@@ -170,52 +137,36 @@ st.markdown("""
         background: transparent !important;
     }
     
-    /* Sidebar text colors */
     section[data-testid="stSidebar"] * {
         color: #e0e0e0 !important;
     }
     
     section[data-testid="stSidebar"] h1,
     section[data-testid="stSidebar"] h2,
-    section[data-testid="stSidebar"] h3,
-    section[data-testid="stSidebar"] h4 {
+    section[data-testid="stSidebar"] h3 {
         color: #ffffff !important;
-    }
-    
-    /* Ensure sidebar is visible */
-    section[data-testid="stSidebar"][aria-expanded="true"] {
-        min-width: 280px !important;
-        max-width: 400px !important;
-    }
-    
-    section[data-testid="stSidebar"][aria-expanded="false"] {
-        margin-left: -280px;
     }
     
     /* File Uploader */
     .stFileUploader {
-        background: rgba(255, 255, 255, 0.05);
+        background: rgba(255, 255, 255, 0.03);
         border: 2px dashed rgba(102, 126, 234, 0.5);
-        border-radius: 15px;
-        padding: 2rem;
-        transition: all 0.3s ease;
+        border-radius: 10px;
+        padding: 1.5rem;
     }
     
     .stFileUploader:hover {
         border-color: #667eea;
-        background: rgba(102, 126, 234, 0.1);
+        background: rgba(102, 126, 234, 0.08);
     }
     
-    .stFileUploader label,
-    .stFileUploader span,
-    .stFileUploader p {
+    .stFileUploader label {
         color: #e0e0e0 !important;
     }
     
     /* Progress Bar */
     .stProgress > div > div {
         background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-        border-radius: 10px;
     }
     
     .stProgress p {
@@ -225,20 +176,15 @@ st.markdown("""
     /* Expander */
     .streamlit-expanderHeader {
         background: rgba(255, 255, 255, 0.05) !important;
-        border-radius: 10px;
-        color: #e0e0e0 !important;
-        font-weight: 600;
+        border-radius: 8px;
     }
     
-    .streamlit-expanderHeader p, 
-    .streamlit-expanderHeader span {
+    .streamlit-expanderHeader p {
         color: #e0e0e0 !important;
     }
     
     .streamlit-expanderContent {
-        background: rgba(255, 255, 255, 0.03) !important;
-        border-radius: 0 0 10px 10px;
-        color: #d0d0d0 !important;
+        background: rgba(255, 255, 255, 0.02) !important;
     }
     
     .streamlit-expanderContent * {
@@ -249,32 +195,26 @@ st.markdown("""
     [data-testid="stMetricValue"] {
         color: #667eea !important;
         font-weight: 700;
-        font-size: clamp(1.5rem, 3vw, 2rem);
     }
     
     [data-testid="stMetricLabel"] {
         color: #b0b0b0 !important;
     }
     
-    [data-testid="stMetricDelta"] {
-        color: #d0d0d0 !important;
-    }
-    
     /* Tabs */
     .stTabs [data-baseweb="tab-list"] {
-        gap: 10px;
+        gap: 8px;
         background: rgba(255, 255, 255, 0.05);
-        border-radius: 15px;
+        border-radius: 10px;
         padding: 0.5rem;
     }
     
     .stTabs [data-baseweb="tab"] {
         background: transparent;
-        border-radius: 10px;
+        border-radius: 8px;
         color: #b0b0b0 !important;
-        font-weight: 600;
-        padding: 0.75rem 1.5rem;
-        transition: all 0.3s ease;
+        font-weight: 500;
+        padding: 0.6rem 1.2rem;
     }
     
     .stTabs [aria-selected="true"] {
@@ -286,89 +226,48 @@ st.markdown("""
         color: white !important;
     }
     
-    /* Animations */
-    @keyframes fadeIn {
-        from { opacity: 0; transform: translateY(20px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    
-    @keyframes fadeInDown {
-        from { opacity: 0; transform: translateY(-30px); }
-        to { opacity: 1; transform: translateY(0); }
-    }
-    
-    @keyframes pulse {
-        0%, 100% { transform: scale(1); }
-        50% { transform: scale(1.05); }
-    }
-    
     /* Form Elements */
-    .stCheckbox label, .stRadio label {
+    .stCheckbox label, .stRadio label, .stSlider label, 
+    .stSelectbox label, .stTextInput label {
         color: #e0e0e0 !important;
     }
     
-    .stSlider label {
-        color: #e0e0e0 !important;
+    /* Alert boxes */
+    .stAlert {
+        border-radius: 10px;
     }
     
-    .stSelectbox label {
-        color: #e0e0e0 !important;
-    }
-    
-    .stTextInput label, .stTextArea label {
-        color: #e0e0e0 !important;
-    }
-    
-    /* Alert boxes - keep original colors for readability */
-    .stAlert p, .stAlert span {
-        color: inherit !important;
-    }
-    
-    /* Dataframe */
-    .dataframe {
-        color: #e0e0e0 !important;
-    }
-    
-    /* Mobile Optimization */
+    /* Responsive */
     @media (max-width: 768px) {
         .main-header {
-            padding: 1.5rem;
-            border-radius: 15px;
-            margin-bottom: 1.5rem;
+            padding: 1rem;
         }
         
         .food-card, .info-section {
-            padding: 1rem;
-            margin: 1rem 0;
-            border-radius: 15px;
+            padding: 0.75rem;
+            margin: 0.75rem 0;
         }
         
         .prediction-badge {
-            padding: 0.75rem 1.5rem;
-            font-size: 1.1rem;
+            padding: 0.6rem 1.2rem;
+            font-size: 1rem;
         }
         
-        .stColumn {
-            width: 100% !important;
-            flex: 1 1 100% !important;
-            max-width: 100% !important;
+        .stButton>button {
+            padding: 0.6rem 1rem !important;
         }
-        
-        section[data-testid="stSidebar"] {
-            width: 100% !important;
-            min-width: auto !important;
+    }
+    
+    /* Container width */
+    .block-container {
+        max-width: 1200px;
+        padding: 1rem 2rem;
+    }
+    
+    @media (max-width: 768px) {
+        .block-container {
+            padding: 0.5rem 1rem;
         }
-        
-        img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 15px;
-        }
-        
-        h1 { font-size: 1.5rem !important; }
-        h2 { font-size: 1.3rem !important; }
-        h3 { font-size: 1.1rem !important; }
-        p { font-size: 0.95rem !important; }
     }
     
     @media (max-width: 480px) {
@@ -962,50 +861,33 @@ def get_nutrition(food_name):
 # MAIN APP
 # ============================================
 def main():
-    # Header with enhanced design
+    # Header
     st.markdown("""
     <div class="main-header">
         <h1>🍛 Bangladeshi Food Classifier</h1>
-        <p style="font-size: 1.2rem; margin-top: 1rem; font-weight: 300;">✨ AI-Powered Food Recognition & Comprehensive Nutrition Analysis ✨</p>
-        <p style="font-size: 0.9rem; margin-top: 0.5rem; color: #a0a0a0;">Identify 35+ Bangladeshi dishes instantly with deep learning technology</p>
+        <p>AI-Powered Food Recognition & Nutrition Analysis</p>
     </div>
     """, unsafe_allow_html=True)
     
-    # Sidebar with enhanced styling
+    # Sidebar
     with st.sidebar:
-        st.markdown("""
-        <div style='text-align: center; padding: 1rem 0; margin-bottom: 1.5rem;'>
-            <h2 style='color: #667eea; font-size: 1.8rem; margin-bottom: 0.5rem;'>🍽️ Food AI</h2>
-            <p style='color: #a0a0a0; font-size: 0.85rem;'>Powered by Deep Learning</p>
-        </div>
-        """, unsafe_allow_html=True)
+        st.markdown("### 🍽️ Food AI")
+        st.markdown("*Powered by Deep Learning*")
         
         st.markdown("### 📊 Features")
         st.markdown("""
-        <div style='background: rgba(102, 126, 234, 0.1); padding: 1rem; border-radius: 10px; border-left: 3px solid #667eea;'>
-        <ul style='margin: 0; padding-left: 1.2rem; line-height: 1.8;'>
-            <li>🔍 Identify <strong>35+ Bangladeshi dishes</strong></li>
-            <li>📊 Detailed <strong>nutrition facts</strong></li>
-            <li>🗺️ Regional <strong>origins & history</strong></li>
-            <li>👨‍🍳 Traditional <strong>preparation methods</strong></li>
-            <li>💡 Personalized <strong>health tips</strong></li>
-            <li>🎯 <strong>97%+ accuracy</strong> with TTA</li>
-        </ul>
-        </div>
-        """, unsafe_allow_html=True)
+        - 🔍 Identify **35+ Bangladeshi dishes**
+        - 📊 Detailed **nutrition facts**
+        - 🗺️ Regional **origins & history**
+        - 👨‍🍳 Traditional **preparation methods**
+        - 💡 Personalized **health tips**
+        - 🎯 **97%+ accuracy** with TTA
+        """)
         
-        st.markdown("<br>", unsafe_allow_html=True)
-        st.markdown("### ⚙️ Advanced Settings")
+        st.markdown("---")
+        st.markdown("### ⚙️ Settings")
         
-        st.markdown("""
-        <div style='background: rgba(118, 75, 162, 0.15); padding: 1rem; border-radius: 10px; margin: 1rem 0;'>
-            <h4 style='color: #f093fb; margin-top: 0;'>📸 Multi-Image Mode</h4>
-            <p style='font-size: 0.85rem; color: #d0d0d0; margin: 0;'>
-                Upload 2-5 images of the same food from different angles.<br>
-                The AI will analyze all images and <strong>combine predictions</strong> for higher accuracy!
-            </p>
-        </div>
-        """, unsafe_allow_html=True)
+        st.info("📸 **Multi-Image Mode**: Upload 2-5 images from different angles for higher accuracy!")
         
         st.markdown("<br>", unsafe_allow_html=True)
         
@@ -1135,21 +1017,13 @@ def main():
         col1, col2 = st.columns([1, 1])
         
         with col1:
-            st.markdown("""
-            <div style='background: rgba(102, 126, 234, 0.1); padding: 1.5rem; border-radius: 15px; 
-                        border: 2px solid rgba(102, 126, 234, 0.3); margin-bottom: 1.5rem;'>
-                <h3 style='margin: 0; color: #667eea;'>📤 Upload Food Image(s)</h3>
-                <p style='margin: 0.5rem 0 0 0; color: #b0b0b0; font-size: 0.9rem;'>
-                    Drag & drop or click to browse your images
-                </p>
-            </div>
-            """, unsafe_allow_html=True)
+            st.markdown("### 📤 Upload Food Image(s)")
             
             # Toggle for multi-image mode
             multi_image_mode = st.checkbox(
-                "📸 Enable Multi-Image Mode",
+                "📸 Multi-Image Mode",
                 value=False,
-                help="Upload 2-5 images of the same food from different angles for enhanced accuracy"
+                help="Upload 2-5 images from different angles for better accuracy"
             )
             
             if multi_image_mode:
@@ -1356,164 +1230,61 @@ def main():
                         </div>
                         """, unsafe_allow_html=True)
                     
-                    # Main prediction with enhanced design
+                    # Main prediction
                     st.markdown(f"""
-                    <div style='text-align: center; margin: 2rem 0;'>
-                        <div class="prediction-badge">
-                            🍽️ {pred['class'].replace('_', ' ').title()}
-                        </div>
+                    <div class="prediction-badge">
+                        🍽️ {pred['class'].replace('_', ' ').title()}
                     </div>
                     """, unsafe_allow_html=True)
                     
-                    # Confidence with enhanced styling
-                    st.markdown(f"""
-                    <div style='background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 10px; margin: 1rem 0;'>
-                        <p style='margin: 0; color: #d0d0d0; font-size: 0.9rem;'>Confidence Score</p>
-                    </div>
-                    """, unsafe_allow_html=True)
-                    st.progress(pred['confidence'] / 100, text=f"✨ {pred['confidence']:.1f}%")
+                    # Confidence
+                    st.progress(pred['confidence'] / 100, text=f"Confidence: {pred['confidence']:.1f}%")
                     
                     # Show individual predictions if multi-image
                     if pred.get('multi_image', False):
-                        with st.expander(f"📋 Individual Image Results ({pred['num_images']} images)", expanded=False):
+                        with st.expander(f"📋 Individual Results ({pred['num_images']} images)"):
                             for idx, (pred_class, confidence, _, _) in enumerate(pred.get('individual_predictions', []), 1):
                                 agreement = "✅" if pred_class == pred['class'] else "⚠️"
-                                st.markdown(f"""
-                                <div style='background: rgba(255, 255, 255, 0.03); padding: 0.75rem; border-radius: 8px; 
-                                            margin: 0.5rem 0; border-left: 3px solid {"#667eea" if pred_class == pred["class"] else "#f093fb"};'>
-                                    {agreement} <strong>Image {idx}:</strong> {pred_class.replace('_', ' ').title()} 
-                                    <span style='color: #667eea;'>({confidence:.1f}%)</span>
-                                </div>
-                                """, unsafe_allow_html=True)
+                                st.markdown(f"{agreement} **Image {idx}:** {pred_class.replace('_', ' ').title()} ({confidence:.1f}%)")
                     
-                    # Top 3 with modern card design
-                    st.markdown("<br>", unsafe_allow_html=True)
+                    # Top 3
                     st.markdown("### 🏆 Top 3 Predictions")
-                    
                     for i, (food, conf) in enumerate(pred['top3'], 1):
                         emoji = "🥇" if i == 1 else "🥈" if i == 2 else "🥉"
-                        color = "#FFD700" if i == 1 else "#C0C0C0" if i == 2 else "#CD7F32"
-                        st.markdown(f"""
-                        <div style='background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 10px; 
-                                    margin: 0.5rem 0; border-left: 4px solid {color}; 
-                                    display: flex; justify-content: space-between; align-items: center;'>
-                            <span style='font-size: 1.1rem;'>{emoji} <strong>{food.replace('_', ' ').title()}</strong></span>
-                            <span style='color: {color}; font-weight: 700; font-size: 1.1rem;'>{conf:.1f}%</span>
-                        </div>
-                        """, unsafe_allow_html=True)
+                        st.markdown(f"{emoji} **{food.replace('_', ' ').title()}**: {conf:.1f}%")
                     
-                    # Nutrition with enhanced design
+                    # Nutrition
                     nutrition = get_nutrition(pred['class'])
                     
-                    st.markdown("<br><br>", unsafe_allow_html=True)
-                    st.markdown("### 📖 Food Information")
+                    st.markdown("---")
+                    st.markdown("### 🍴 Food Information")
                     
-                    # Description and origin in cards
-                    st.markdown(f"""
-                    <div style='background: rgba(102, 126, 234, 0.1); padding: 1.25rem; border-radius: 12px; 
-                                margin: 1rem 0; border-left: 4px solid #667eea;'>
-                        <p style='margin: 0; color: #667eea; font-weight: 600; font-size: 0.9rem;'>📝 DESCRIPTION</p>
-                        <p style='margin: 0.5rem 0 0 0; color: #e0e0e0; line-height: 1.6;'>{nutrition['description']}</p>
-                    </div>
-                    """, unsafe_allow_html=True)
+                    st.markdown(f"**📝 Description:** {nutrition['description']}")
+                    st.markdown(f"**🗺️ Origin:** {nutrition['origin']}")
+                    st.markdown(f"**⏰ Best Time:** {nutrition['best_time']}")
                     
-                    col_info1, col_info2 = st.columns(2)
-                    with col_info1:
-                        st.markdown(f"""
-                        <div style='background: rgba(118, 75, 162, 0.1); padding: 1rem; border-radius: 10px; 
-                                    border-left: 3px solid #764ba2; height: 100%;'>
-                            <p style='margin: 0; color: #764ba2; font-weight: 600; font-size: 0.85rem;'>🗺️ ORIGIN</p>
-                            <p style='margin: 0.5rem 0 0 0; color: #d0d0d0;'>{nutrition['origin']}</p>
-                        </div>
-                        """, unsafe_allow_html=True)
+                    st.markdown("---")
+                    st.markdown("### 📊 Nutrition Facts (per 100g)")
                     
-                    with col_info2:
-                        st.markdown(f"""
-                        <div style='background: rgba(240, 147, 251, 0.1); padding: 1rem; border-radius: 10px; 
-                                    border-left: 3px solid #f093fb; height: 100%;'>
-                            <p style='margin: 0; color: #f093fb; font-weight: 600; font-size: 0.85rem;'>⏰ BEST TIME</p>
-                            <p style='margin: 0.5rem 0 0 0; color: #d0d0d0;'>{nutrition['best_time']}</p>
-                        </div>
-                        """, unsafe_allow_html=True)
-                    
-                    st.markdown("<br>", unsafe_allow_html=True)
-                    st.markdown("### 📊 Nutrition Facts")
-                    st.markdown("<p style='color: #a0a0a0; font-size: 0.85rem; margin-top: -0.5rem;'>Per 100g serving</p>", unsafe_allow_html=True)
-                    
-                    # Nutrition metrics in modern cards
+                    # Nutrition metrics
                     met_col1, met_col2, met_col3, met_col4 = st.columns(4)
+                    met_col1.metric("🔥 Calories", f"{nutrition['calories']} kcal")
+                    met_col2.metric("🥩 Protein", f"{nutrition['protein']}g")
+                    met_col3.metric("🍚 Carbs", f"{nutrition['carbs']}g")
+                    met_col4.metric("🧈 Fat", f"{nutrition['fat']}g")
                     
-                    metrics = [
-                        (met_col1, "🔥", "Calories", f"{nutrition['calories']}", "kcal"),
-                        (met_col2, "🥩", "Protein", f"{nutrition['protein']}", "g"),
-                        (met_col3, "🍚", "Carbs", f"{nutrition['carbs']}", "g"),
-                        (met_col4, "🧈", "Fat", f"{nutrition['fat']}", "g")
-                    ]
+                    st.markdown(f"**🥗 Fiber:** {nutrition['fiber']}g | **💊 Vitamins:** {nutrition['vitamins']}")
+                    st.info(f"**📏 Serving Size:** {nutrition['serving_size']}")
                     
-                    for col, emoji, label, value, unit in metrics:
-                        with col:
-                            st.markdown(f"""
-                            <div style='background: rgba(255, 255, 255, 0.05); padding: 1rem; border-radius: 10px; 
-                                        text-align: center; transition: all 0.3s ease;'>
-                                <p style='font-size: 1.8rem; margin: 0;'>{emoji}</p>
-                                <p style='color: #667eea; font-size: 1.5rem; font-weight: 700; margin: 0.5rem 0;'>
-                                    {value}<span style='font-size: 0.8rem; color: #a0a0a0;'>{unit}</span>
-                                </p>
-                                <p style='color: #b0b0b0; font-size: 0.8rem; margin: 0;'>{label}</p>
-                            </div>
-                            """, unsafe_allow_html=True)
+                    st.markdown("---")
+                    st.markdown("### 👨‍🍳 How It's Made")
+                    st.markdown(f"<div class='info-section'>{nutrition['preparation']}</div>", unsafe_allow_html=True)
                     
-                    # Additional nutrition info
-                    st.markdown("<br>", unsafe_allow_html=True)
-                    col_extra1, col_extra2 = st.columns(2)
+                    st.markdown("### 💡 Health Tips")
+                    st.success(nutrition['health_tips'])
                     
-                    with col_extra1:
-                        st.markdown(f"""
-                        <div style='background: rgba(102, 126, 234, 0.1); padding: 1rem; border-radius: 10px;'>
-                            <p style='margin: 0;'><strong>🥗 Fiber:</strong> <span style='color: #667eea;'>{nutrition['fiber']}g</span></p>
-                        </div>
-                        """, unsafe_allow_html=True)
-                    
-                    with col_extra2:
-                        st.markdown(f"""
-                        <div style='background: rgba(118, 75, 162, 0.1); padding: 1rem; border-radius: 10px;'>
-                            <p style='margin: 0;'><strong>💊 Key Vitamins:</strong> <span style='color: #764ba2;'>{nutrition['vitamins']}</span></p>
-                        </div>
-                        """, unsafe_allow_html=True)
-                    
-                    st.markdown(f"""
-                    <div style='background: rgba(240, 147, 251, 0.15); padding: 1rem; border-radius: 10px; 
-                                margin: 1rem 0; text-align: center; border: 1px solid rgba(240, 147, 251, 0.3);'>
-                        <strong>📏 Serving Size:</strong> <span style='color: #f093fb; font-size: 1.1rem;'>{nutrition['serving_size']}</span>
-                    </div>
-                    """, unsafe_allow_html=True)
-                    
-                    # Expandable sections with enhanced design
-                    st.markdown("<br>", unsafe_allow_html=True)
-                    
-                    with st.expander("👨‍🍳 How It's Made", expanded=False):
-                        st.markdown(f"""
-                        <div style='background: rgba(255, 255, 255, 0.03); padding: 1.25rem; border-radius: 10px; 
-                                    border-left: 3px solid #667eea; line-height: 1.7;'>
-                            {nutrition['preparation']}
-                        </div>
-                        """, unsafe_allow_html=True)
-                    
-                    with st.expander("💡 Health Tips & Benefits", expanded=False):
-                        st.markdown(f"""
-                        <div style='background: rgba(102, 126, 234, 0.1); padding: 1.25rem; border-radius: 10px; 
-                                    border-left: 3px solid #4ade80; line-height: 1.7;'>
-                            {nutrition['health_tips']}
-                        </div>
-                        """, unsafe_allow_html=True)
-                    
-                    with st.expander("🍽️ Popular Variants", expanded=False):
-                        st.markdown(f"""
-                        <div style='background: rgba(118, 75, 162, 0.1); padding: 1.25rem; border-radius: 10px; 
-                                    border-left: 3px solid #764ba2; line-height: 1.7; font-style: italic;'>
-                            {nutrition['popular_variants']}
-                        </div>
-                        """, unsafe_allow_html=True)
+                    st.markdown("### 🍽️ Popular Variants")
+                    st.markdown(f"_{nutrition['popular_variants']}_")
                 
             else:
                 st.info("👆 Upload an image and click 'Analyze Food' to see results")

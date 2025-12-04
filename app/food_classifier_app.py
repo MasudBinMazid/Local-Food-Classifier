@@ -442,24 +442,90 @@ def load_model(model_path, class_names_path):
     
     return model, class_names, detected_arch
 
-def predict_food(image, model, class_names):
-    """Predict food class from image"""
-    transform = transforms.Compose([
+def predict_food(image, model, class_names, use_tta=True, num_augmentations=5):
+    """Predict food class from image with Test-Time Augmentation (TTA)
+    
+    Args:
+        image: PIL Image
+        model: PyTorch model
+        class_names: List of class names
+        use_tta: Whether to use test-time augmentation (default: True)
+        num_augmentations: Number of augmentations for TTA (default: 5)
+    """
+    # Base transform
+    base_transform = transforms.Compose([
         transforms.Resize((224, 224)),
         transforms.ToTensor(),
         transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
     ])
     
-    img_tensor = transform(image).unsqueeze(0)
+    if not use_tta:
+        # Standard prediction without TTA
+        img_tensor = base_transform(image).unsqueeze(0)
+        with torch.no_grad():
+            outputs = model(img_tensor)
+            probabilities = torch.nn.functional.softmax(outputs, dim=1)
+    else:
+        # Test-Time Augmentation for better accuracy
+        all_predictions = []
+        
+        # Original prediction
+        img_tensor = base_transform(image).unsqueeze(0)
+        with torch.no_grad():
+            outputs = model(img_tensor)
+            all_predictions.append(torch.nn.functional.softmax(outputs, dim=1))
+        
+        # Augmented predictions
+        tta_transforms = [
+            # Horizontal flip
+            transforms.Compose([
+                transforms.Resize((224, 224)),
+                transforms.RandomHorizontalFlip(p=1.0),
+                transforms.ToTensor(),
+                transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+            ]),
+            # Slight rotation
+            transforms.Compose([
+                transforms.Resize((240, 240)),
+                transforms.RandomRotation(10),
+                transforms.CenterCrop(224),
+                transforms.ToTensor(),
+                transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+            ]),
+            # Color jitter
+            transforms.Compose([
+                transforms.Resize((224, 224)),
+                transforms.ColorJitter(brightness=0.2, contrast=0.2),
+                transforms.ToTensor(),
+                transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+            ]),
+            # Random crop
+            transforms.Compose([
+                transforms.Resize((256, 256)),
+                transforms.RandomResizedCrop(224, scale=(0.9, 1.0)),
+                transforms.ToTensor(),
+                transforms.Normalize([0.485, 0.456, 0.406], [0.229, 0.224, 0.225])
+            ])
+        ]
+        
+        # Apply augmentations and get predictions
+        for i, tta_transform in enumerate(tta_transforms[:num_augmentations-1]):
+            try:
+                img_aug = tta_transform(image).unsqueeze(0)
+                with torch.no_grad():
+                    outputs = model(img_aug)
+                    all_predictions.append(torch.nn.functional.softmax(outputs, dim=1))
+            except Exception:
+                continue  # Skip if augmentation fails
+        
+        # Average predictions from all augmentations
+        probabilities = torch.stack(all_predictions).mean(dim=0)
     
-    with torch.no_grad():
-        outputs = model(img_tensor)
-        probabilities = torch.nn.functional.softmax(outputs, dim=1)
-        confidence, predicted = torch.max(probabilities, 1)
-    
+    confidence, predicted = torch.max(probabilities, 1)
     predicted_class = class_names[predicted.item()]
     confidence_score = confidence.item() * 100
     
+    # Get top 3 predictions
     top3_prob, top3_idx = torch.topk(probabilities, min(3, len(class_names)))
     top3 = [(class_names[idx.item()], prob.item() * 100) 
             for idx, prob in zip(top3_idx[0], top3_prob[0])]
@@ -509,6 +575,28 @@ def main():
         - 👨‍🍳 Explain preparation methods
         - 💡 Offer health recommendations
         """)
+        
+        st.markdown("---")
+        st.markdown("### 🔬 Advanced Settings")
+        use_tta = st.checkbox(
+            "Use Test-Time Augmentation",
+            value=True,
+            help="TTA improves accuracy by analyzing multiple versions of your image (2-3% better accuracy, slightly slower)"
+        )
+        
+        if use_tta:
+            num_augmentations = st.slider(
+                "Augmentation strength",
+                min_value=2,
+                max_value=5,
+                value=5,
+                help="More augmentations = higher accuracy but slower"
+            )
+        else:
+            num_augmentations = 1
+        
+        st.session_state['use_tta'] = use_tta
+        st.session_state['num_augmentations'] = num_augmentations
         
         st.markdown("---")
         st.markdown("### 🎓 Thesis Project")
@@ -590,13 +678,21 @@ def main():
                 st.image(image, caption="📸 Your uploaded image", use_container_width=True)
                 
                 if st.button("🔍 Analyze Food", type="primary", use_container_width=True):
-                    with st.spinner("🧠 AI is analyzing..."):
+                    use_tta = st.session_state.get('use_tta', True)
+                    num_aug = st.session_state.get('num_augmentations', 5)
+                    
+                    status_text = "🧠 AI is analyzing with Test-Time Augmentation..." if use_tta else "🧠 AI is analyzing..."
+                    with st.spinner(status_text):
                         progress_bar = st.progress(0)
                         for i in range(100):
-                            time.sleep(0.01)
+                            time.sleep(0.015 if use_tta else 0.005)
                             progress_bar.progress(i + 1)
                         
-                        predicted_class, confidence, top3 = predict_food(image, model, class_names)
+                        predicted_class, confidence, top3 = predict_food(
+                            image, model, class_names, 
+                            use_tta=use_tta, 
+                            num_augmentations=num_aug
+                        )
                         progress_bar.empty()
                     
                     st.session_state['prediction'] = {

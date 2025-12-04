@@ -733,9 +733,11 @@ def get_nutrition(food_name):
 def main():
     # Header
     st.markdown("""
-    <div class="main-header">
-        <h1>🍛 Bangladeshi Food Classifier</h1>
-        <p>AI-Powered Food Recognition & Nutrition Analysis</p>
+    <div style='background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); 
+                border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding: 2rem; 
+                text-align: center; margin-bottom: 2rem; border-radius: 15px;'>
+        <h1 style='color: #ffffff; margin-bottom: 0.5rem;'>🍛 Bangladeshi Food Classifier</h1>
+        <p style='color: #b0b0b0; margin: 0; font-size: 1.1rem;'>AI-Powered Food Recognition & Nutrition Analysis</p>
     </div>
     """, unsafe_allow_html=True)
     

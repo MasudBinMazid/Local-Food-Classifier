@@ -86,8 +86,8 @@ st.markdown("""
         border-color: #87CEEB;
     }
     
-    .stFileUploader label, .stFileUploader p {
-        color: #87CEEB !important;
+    .stFileUploader label, .stFileUploader p, .stFileUploader span {
+        color: #000000 !important;
     }
     
     /* Tabs */

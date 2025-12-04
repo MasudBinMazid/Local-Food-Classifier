@@ -1179,7 +1179,7 @@ def main():
     st.markdown(
         """
         <div style='text-align: center; padding: 20px; color: #666;'>
-            Developed with ❤️ by <a href='https://github.com/MasudBinMazid' target='_blank' style='color: #FF6B6B; text-decoration: none;'>Masud</a>
+            Developed by <a href='https://github.com/MasudBinMazid' target='_blank' style='color: #FF6B6B; text-decoration: none;'>Masud</a>
         </div>
         """,
         unsafe_allow_html=True

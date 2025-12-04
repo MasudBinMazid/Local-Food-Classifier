@@ -25,8 +25,8 @@ venv/
 .vscode/
 .idea/
 
-# Model files (too large for GitHub - use Git LFS or Google Drive)
-*.pth
+# Model files (using Git LFS for .pth files)
+# *.pth files are tracked by Git LFS - see .gitattributes
 *.h5
 *.pkl
 

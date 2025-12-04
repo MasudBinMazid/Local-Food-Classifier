@@ -16,8 +16,8 @@ import time
 
 # Page config
 st.set_page_config(
-    page_title="🍛 Bangladeshi Food Classifier",
-    page_icon="🍛",
+    page_title="Bangladeshi Food Classifier",
+    page_icon="🍕",
     layout="wide",
     initial_sidebar_state="auto"
 )
@@ -912,16 +912,32 @@ def main():
         st.session_state['num_augmentations'] = num_augmentations
         
         st.markdown("---")
+        st.markdown("### 🎯 Confidence Settings")
+        
+        st.markdown("""
+        Set minimum confidence level for predictions. Higher values make the model more strict.
+        - **Low (30-50%)**: Accept more predictions, may include uncertain results
+        - **Medium (50-70%)**: Balanced - **Recommended**
+        - **High (70-90%)**: Very strict, only high-confidence predictions
+        """)
         
         confidence_threshold = st.slider(
-            "🎯 Confidence Threshold",
+            "Minimum Confidence Level (%)",
             min_value=30.0,
             max_value=90.0,
             value=60.0,
             step=5.0,
-            help="Minimum confidence to accept prediction. Higher = more strict validation. 60% is recommended to reject random images, text, or non-food photos."
+            help="Predictions below this confidence will be marked as 'Low Confidence'. Recommended: 60%"
         )
         st.session_state['confidence_threshold'] = confidence_threshold
+        
+        # Show current setting
+        if confidence_threshold < 50:
+            st.warning(f"⚠️ Current: **{confidence_threshold:.0f}%** - Low threshold (More permissive)")
+        elif confidence_threshold <= 70:
+            st.success(f"✅ Current: **{confidence_threshold:.0f}%** - Medium threshold (Recommended)")
+        else:
+            st.info(f"🔒 Current: **{confidence_threshold:.0f}%** - High threshold (Very strict)")
         
         st.caption(f"Current: {confidence_threshold:.0f}% - Predictions below this will be marked as 'Out of Range'")
         
@@ -1017,7 +1033,7 @@ def main():
         col1, col2 = st.columns([1, 1])
         
         with col1:
-            st.markdown("### 📤 Upload Food Image(s)")
+            st.markdown("### Upload Food Image(s)")
             
             # Toggle for multi-image mode
             multi_image_mode = st.checkbox(
@@ -1173,7 +1189,7 @@ def main():
                         st.rerun()
         
         with col2:
-            st.markdown("### 📊 Analysis Results")
+            st.markdown("### Analysis Results")
             
             if 'prediction' in st.session_state:
                 pred = st.session_state['prediction']
@@ -1329,10 +1345,10 @@ def main():
                 🍛 Bangladeshi Food Classifier &copy; 2025
             </p>
             <p style='margin: 0.5rem 0;'>
-                Developed with ❤️ by 
+                Developed by 
                 <a href='https://github.com/MasudBinMazid' target='_blank' 
                    style='color: #667eea; text-decoration: none; font-weight: 600;'>
-                    Masud Bin Mazid
+                    Masud
                 </a>
             </p>
             <p style='color: #808080; font-size: 0.85rem; margin-top: 1rem;'>

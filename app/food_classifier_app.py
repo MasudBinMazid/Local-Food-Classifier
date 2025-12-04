@@ -75,10 +75,19 @@ st.markdown("""
     
     /* File Uploader */
     .stFileUploader {
-        background: rgba(255, 255, 255, 0.03);
-        border: 2px dashed rgba(102, 126, 234, 0.5);
+        background: rgba(135, 206, 235, 0.15);
+        border: 2px dashed rgba(135, 206, 235, 0.6);
         border-radius: 10px;
         padding: 1rem;
+    }
+    
+    .stFileUploader:hover {
+        background: rgba(135, 206, 235, 0.25);
+        border-color: #87CEEB;
+    }
+    
+    .stFileUploader label, .stFileUploader p {
+        color: #87CEEB !important;
     }
     
     /* Tabs */

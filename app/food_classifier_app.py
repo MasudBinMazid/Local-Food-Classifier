@@ -602,7 +602,7 @@ def load_model(model_path, class_names_path):
     
     return model, class_names, detected_arch
 
-def predict_food(image, model, class_names, use_tta=True, num_augmentations=5, confidence_threshold=50.0):
+def predict_food(image, model, class_names, use_tta=True, num_augmentations=5, confidence_threshold=60.0):
     """Predict food class from image with Test-Time Augmentation (TTA) and confidence validation
     
     Args:
@@ -784,10 +784,10 @@ def main():
         confidence_threshold = st.slider(
             "🎯 Confidence Threshold",
             min_value=30.0,
-            max_value=80.0,
-            value=50.0,
+            max_value=90.0,
+            value=60.0,
             step=5.0,
-            help="Minimum confidence to accept prediction. Lower = more permissive, Higher = more strict. Set to 50% to reject out-of-category images."
+            help="Minimum confidence to accept prediction. Higher = more strict validation. 60% is recommended to reject random images, text, or non-food photos."
         )
         st.session_state['confidence_threshold'] = confidence_threshold
         

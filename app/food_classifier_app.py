@@ -16,26 +16,22 @@ import time
 
 # Page config
 st.set_page_config(
-    page_title="Bangladeshi Food Classifier",
-    page_icon="🍕",
+    page_title="🍛 Bangladeshi Food Classifier",
+    page_icon="🍛",
     layout="wide",
-    initial_sidebar_state="auto"
+    initial_sidebar_state="expanded"
 )
 
-# Custom CSS for modern dark design with mobile responsiveness
+# Custom CSS - Clean, responsive design
 st.markdown("""
 <style>
-    /* Import Google Fonts */
-    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap');
-    
-    /* Global Dark Theme */
+    /* Dark theme */
     .stApp {
-        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
-        font-family: 'Inter', sans-serif;
+        background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
     }
     
-    /* Global text colors */
-    .stApp, .stApp p, .stApp span, .stApp div, .stApp label, .stMarkdown {
+    /* Text colors */
+    .stApp, .stMarkdown, p, span, div, label {
         color: #e0e0e0 !important;
     }
     
@@ -43,108 +39,38 @@ st.markdown("""
         color: #ffffff !important;
     }
     
-    /* Hide Streamlit branding */
-    #MainMenu {visibility: hidden;}
-    footer {visibility: hidden;}
-    header {visibility: hidden;}
+    /* Hide branding */
+    #MainMenu, footer, header {visibility: hidden;}
     
-    /* Main Header */
-    .main-header {
-        background: rgba(255, 255, 255, 0.05);
-        padding: 1.5rem;
-        border-radius: 12px;
-        text-align: center;
-        margin-bottom: 2rem;
-        border: 1px solid rgba(255, 255, 255, 0.1);
-    }
     
-    .main-header h1 {
-        font-size: clamp(1.8rem, 4vw, 2.5rem);
-        margin: 0 0 0.5rem 0;
-        font-weight: 700;
-        color: #ffffff !important;
-    }
-    
-    .main-header p {
-        font-size: clamp(0.9rem, 2vw, 1.1rem);
-        color: #b0b0b0 !important;
-        margin: 0;
-    }
-    
-    /* Food Card */
-    .food-card {
-        background: rgba(255, 255, 255, 0.05);
-        padding: 1.5rem;
-        border-radius: 12px;
-        margin: 1rem 0;
-        border-left: 4px solid #667eea;
-    }
-    
-    .food-card h3 {
-        color: #ffffff !important;
-        margin-top: 0;
-    }
-    
-    .food-card p {
-        color: #d0d0d0 !important;
-    }
-    
-    /* Prediction Badge */
-    .prediction-badge {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 0.75rem 1.5rem;
-        border-radius: 30px;
-        color: white !important;
-        font-size: clamp(1.1rem, 3vw, 1.5rem);
-        font-weight: 700;
-        display: inline-block;
-        margin: 1rem 0;
-    }
-    
-    /* Info Section */
-    .info-section {
-        background: rgba(255, 255, 255, 0.05);
-        padding: 1rem;
-        border-radius: 10px;
-        margin: 0.75rem 0;
-        color: #d0d0d0 !important;
-    }
-    
-    /* Buttons */
-    .stButton>button {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
-        color: white !important;
-        border-radius: 25px !important;
-        padding: 0.75rem 1.5rem !important;
-        font-weight: 600 !important;
-        border: none !important;
-        width: 100%;
-        transition: all 0.3s ease;
-    }
-    
-    .stButton>button:hover {
-        transform: translateY(-2px);
-        box-shadow: 0 6px 20px rgba(102, 126, 234, 0.5);
-    }
-    
-    /* Sidebar */
+    /* Sidebar - Always visible */
     section[data-testid="stSidebar"] {
-        background: rgba(20, 20, 40, 0.95) !important;
-        border-right: 1px solid rgba(255, 255, 255, 0.1);
-    }
-    
-    section[data-testid="stSidebar"] > div {
-        background: transparent !important;
+        background: rgba(20, 20, 40, 0.98) !important;
+        border-right: 1px solid rgba(102, 126, 234, 0.3) !important;
     }
     
     section[data-testid="stSidebar"] * {
         color: #e0e0e0 !important;
     }
     
-    section[data-testid="stSidebar"] h1,
-    section[data-testid="stSidebar"] h2,
     section[data-testid="stSidebar"] h3 {
-        color: #ffffff !important;
+        color: #667eea !important;
+    }
+    
+    /* Buttons */
+    .stButton>button {
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        color: white !important;
+        border-radius: 10px !important;
+        padding: 0.6rem 1.2rem !important;
+        font-weight: 600 !important;
+        border: none !important;
+        width: 100%;
+    }
+    
+    .stButton>button:hover {
+        opacity: 0.9;
+        transform: translateY(-1px);
     }
     
     /* File Uploader */
@@ -152,53 +78,7 @@ st.markdown("""
         background: rgba(255, 255, 255, 0.03);
         border: 2px dashed rgba(102, 126, 234, 0.5);
         border-radius: 10px;
-        padding: 1.5rem;
-    }
-    
-    .stFileUploader:hover {
-        border-color: #667eea;
-        background: rgba(102, 126, 234, 0.08);
-    }
-    
-    .stFileUploader label {
-        color: #e0e0e0 !important;
-    }
-    
-    /* Progress Bar */
-    .stProgress > div > div {
-        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
-    }
-    
-    .stProgress p {
-        color: #e0e0e0 !important;
-    }
-    
-    /* Expander */
-    .streamlit-expanderHeader {
-        background: rgba(255, 255, 255, 0.05) !important;
-        border-radius: 8px;
-    }
-    
-    .streamlit-expanderHeader p {
-        color: #e0e0e0 !important;
-    }
-    
-    .streamlit-expanderContent {
-        background: rgba(255, 255, 255, 0.02) !important;
-    }
-    
-    .streamlit-expanderContent * {
-        color: #d0d0d0 !important;
-    }
-    
-    /* Metrics */
-    [data-testid="stMetricValue"] {
-        color: #667eea !important;
-        font-weight: 700;
-    }
-    
-    [data-testid="stMetricLabel"] {
-        color: #b0b0b0 !important;
+        padding: 1rem;
     }
     
     /* Tabs */
@@ -210,11 +90,9 @@ st.markdown("""
     }
     
     .stTabs [data-baseweb="tab"] {
-        background: transparent;
         border-radius: 8px;
         color: #b0b0b0 !important;
-        font-weight: 500;
-        padding: 0.6rem 1.2rem;
+        padding: 0.5rem 1rem;
     }
     
     .stTabs [aria-selected="true"] {
@@ -222,52 +100,35 @@ st.markdown("""
         color: white !important;
     }
     
-    .stTabs [aria-selected="true"] * {
-        color: white !important;
+    /* Metrics */
+    [data-testid="stMetricValue"] {
+        color: #667eea !important;
     }
     
-    /* Form Elements */
-    .stCheckbox label, .stRadio label, .stSlider label, 
-    .stSelectbox label, .stTextInput label {
-        color: #e0e0e0 !important;
+    [data-testid="stMetricLabel"] {
+        color: #b0b0b0 !important;
     }
     
-    /* Alert boxes */
-    .stAlert {
-        border-radius: 10px;
+    /* Progress bar */
+    .stProgress > div > div {
+        background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
     }
     
-    /* Responsive */
+    /* Responsive - Mobile */
     @media (max-width: 768px) {
-        .main-header {
-            padding: 1rem;
-        }
-        
-        .food-card, .info-section {
-            padding: 0.75rem;
-            margin: 0.75rem 0;
-        }
-        
-        .prediction-badge {
-            padding: 0.6rem 1.2rem;
-            font-size: 1rem;
+        .block-container {
+            padding: 1rem !important;
         }
         
         .stButton>button {
-            padding: 0.6rem 1rem !important;
+            padding: 0.5rem 1rem !important;
         }
     }
     
-    /* Container width */
+    /* Container max-width */
     .block-container {
-        max-width: 1200px;
-        padding: 1rem 2rem;
-    }
-    
-    @media (max-width: 768px) {
-        .block-container {
-            padding: 0.5rem 1rem;
-        }
+        max-width: 1400px !important;
+        padding: 2rem !important;
     }
     
     @media (max-width: 480px) {

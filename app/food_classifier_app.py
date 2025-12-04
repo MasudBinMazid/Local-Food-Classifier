@@ -186,6 +186,9 @@ st.markdown("""
     }
 </style>
 
+<!-- PWA Manifest Link -->
+<link rel="manifest" href="/app/static/manifest.json">
+
 <!-- PWA Meta Tags -->
 <meta name="mobile-web-app-capable" content="yes">
 <meta name="apple-mobile-web-app-capable" content="yes">
@@ -193,6 +196,10 @@ st.markdown("""
 <meta name="apple-mobile-web-app-title" content="Food Classifier">
 <meta name="theme-color" content="#667eea">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+
+<!-- PWA Icons -->
+<link rel="icon" type="image/png" sizes="192x192" href="/app/static/icon-192.png">
+<link rel="apple-touch-icon" sizes="192x192" href="/app/static/icon-192.png">
 
 <!-- PWA Service Worker Registration -->
 <script>
@@ -750,6 +757,34 @@ def main():
         
         st.session_state['use_tta'] = use_tta
         st.session_state['num_augmentations'] = num_augmentations
+        
+        st.markdown("---")
+        st.markdown("### 📱 Install as App")
+        st.markdown("""
+        **Mobile (Android/iOS):**  
+        Tap browser menu → "Add to Home Screen"
+        
+        **Desktop (Chrome/Edge):**  
+        Click ⊕ icon in address bar
+        """)
+        
+        if st.button("📲 View Install Guide", use_container_width=True):
+            st.info("""
+            **Android Chrome/Samsung:**
+            1. Tap ⋮ menu
+            2. Tap "Install app"
+            3. Tap "Install"
+            
+            **iPhone Safari:**
+            1. Tap Share □↑
+            2. Scroll down
+            3. Tap "Add to Home Screen"
+            4. Tap "Add"
+            
+            **Desktop:**
+            1. Look for ⊕ in address bar
+            2. Or: Settings → "Install app"
+            """)
         
         st.markdown("---")
         st.markdown("### 🎓 Thesis Project")

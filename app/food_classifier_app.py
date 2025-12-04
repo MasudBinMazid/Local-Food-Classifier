@@ -602,8 +602,8 @@ def load_model(model_path, class_names_path):
     
     return model, class_names, detected_arch
 
-def predict_food(image, model, class_names, use_tta=True, num_augmentations=5):
-    """Predict food class from image with Test-Time Augmentation (TTA)
+def predict_food(image, model, class_names, use_tta=True, num_augmentations=5, confidence_threshold=50.0):
+    """Predict food class from image with Test-Time Augmentation (TTA) and confidence validation
     
     Args:
         image: PIL Image
@@ -611,6 +611,13 @@ def predict_food(image, model, class_names, use_tta=True, num_augmentations=5):
         class_names: List of class names
         use_tta: Whether to use test-time augmentation (default: True)
         num_augmentations: Number of augmentations for TTA (default: 5)
+        confidence_threshold: Minimum confidence to accept prediction (default: 50.0%)
+    
+    Returns:
+        predicted_class: str - Predicted food class or "UNKNOWN"
+        confidence_score: float - Confidence percentage
+        top3: list - Top 3 predictions with confidence
+        is_valid: bool - Whether prediction meets confidence threshold
     """
     # Base transform
     base_transform = transforms.Compose([
@@ -690,7 +697,12 @@ def predict_food(image, model, class_names, use_tta=True, num_augmentations=5):
     top3 = [(class_names[idx.item()], prob.item() * 100) 
             for idx, prob in zip(top3_idx[0], top3_prob[0])]
     
-    return predicted_class, confidence_score, top3
+    # Validate prediction confidence
+    is_valid = confidence_score >= confidence_threshold
+    if not is_valid:
+        predicted_class = "UNKNOWN"
+    
+    return predicted_class, confidence_score, top3, is_valid
 
 def get_nutrition(food_name):
     """Get nutrition data for food"""
@@ -766,6 +778,20 @@ def main():
         
         st.session_state['use_tta'] = use_tta
         st.session_state['num_augmentations'] = num_augmentations
+        
+        st.markdown("---")
+        
+        confidence_threshold = st.slider(
+            "🎯 Confidence Threshold",
+            min_value=30.0,
+            max_value=80.0,
+            value=50.0,
+            step=5.0,
+            help="Minimum confidence to accept prediction. Lower = more permissive, Higher = more strict. Set to 50% to reject out-of-category images."
+        )
+        st.session_state['confidence_threshold'] = confidence_threshold
+        
+        st.caption(f"Current: {confidence_threshold:.0f}% - Predictions below this will be marked as 'Out of Range'")
         
         st.markdown("---")
         st.markdown("### 📱 Install as App")
@@ -905,14 +931,17 @@ def main():
                             all_predictions = []
                             all_confidences = []
                             
+                            confidence_threshold = st.session_state.get('confidence_threshold', 50.0)
+                            
                             for idx, img_file in enumerate(uploaded_images):
                                 img = Image.open(img_file).convert('RGB')
-                                pred_class, confidence, top3 = predict_food(
+                                pred_class, confidence, top3, is_valid = predict_food(
                                     img, model, class_names, 
                                     use_tta=use_tta, 
-                                    num_augmentations=num_aug
+                                    num_augmentations=num_aug,
+                                    confidence_threshold=confidence_threshold
                                 )
-                                all_predictions.append((pred_class, confidence, top3))
+                                all_predictions.append((pred_class, confidence, top3, is_valid))
                                 all_confidences.append(confidence)
                                 
                                 # Update progress
@@ -921,22 +950,34 @@ def main():
                             
                             progress_bar.empty()
                             
+                            # Check how many predictions are valid
+                            valid_predictions = [p for p in all_predictions if p[3]]
+                            
                             # Ensemble prediction: majority vote with confidence weighting
                             from collections import Counter
                             pred_classes = [p[0] for p in all_predictions]
                             
-                            # Weighted voting based on confidence
+                            # Weighted voting based on confidence (only valid predictions)
                             class_scores = {}
-                            for pred_class, confidence, _ in all_predictions:
-                                class_scores[pred_class] = class_scores.get(pred_class, 0) + confidence
+                            for pred_class, confidence, _, is_valid in all_predictions:
+                                if is_valid:  # Only count valid predictions
+                                    class_scores[pred_class] = class_scores.get(pred_class, 0) + confidence
                             
-                            # Get final prediction
-                            final_class = max(class_scores.items(), key=lambda x: x[1])[0]
-                            final_confidence = class_scores[final_class] / len(uploaded_images)
+                            # Check if we have any valid predictions
+                            final_is_valid = len(valid_predictions) >= len(uploaded_images) * 0.5  # At least 50% valid
+                            
+                            if final_is_valid and class_scores:
+                                # Get final prediction
+                                final_class = max(class_scores.items(), key=lambda x: x[1])[0]
+                                final_confidence = class_scores[final_class] / len(valid_predictions)
+                            else:
+                                # Not enough valid predictions
+                                final_class = "UNKNOWN"
+                                final_confidence = sum(all_confidences) / len(all_confidences)
                             
                             # Get consensus top 3
                             all_top3_classes = {}
-                            for _, _, top3 in all_predictions:
+                            for _, _, top3, _ in all_predictions:
                                 for food, conf in top3:
                                     all_top3_classes[food] = all_top3_classes.get(food, 0) + conf
                             
@@ -949,7 +990,8 @@ def main():
                             'top3': final_top3,
                             'multi_image': True,
                             'num_images': len(uploaded_images),
-                            'individual_predictions': all_predictions
+                            'individual_predictions': all_predictions,
+                            'is_valid': final_is_valid
                         }
                         st.rerun()
             
@@ -972,27 +1014,30 @@ def main():
                     if st.button("🔍 Analyze Food", type="primary", use_container_width=True):
                         use_tta = st.session_state.get('use_tta', True)
                         num_aug = st.session_state.get('num_augmentations', 5)
-                    
-                    status_text = "🧠 AI is analyzing with Test-Time Augmentation..." if use_tta else "🧠 AI is analyzing..."
-                    with st.spinner(status_text):
-                        progress_bar = st.progress(0)
-                        for i in range(100):
-                            time.sleep(0.015 if use_tta else 0.005)
-                            progress_bar.progress(i + 1)
+                        confidence_threshold = st.session_state.get('confidence_threshold', 50.0)
                         
-                        predicted_class, confidence, top3 = predict_food(
-                            image, model, class_names, 
-                            use_tta=use_tta, 
-                            num_augmentations=num_aug
-                        )
-                        progress_bar.empty()
+                        status_text = "🧠 AI is analyzing with Test-Time Augmentation..." if use_tta else "🧠 AI is analyzing..."
+                        with st.spinner(status_text):
+                            progress_bar = st.progress(0)
+                            for i in range(100):
+                                time.sleep(0.015 if use_tta else 0.005)
+                                progress_bar.progress(i + 1)
+                            
+                            predicted_class, confidence, top3, is_valid = predict_food(
+                                image, model, class_names, 
+                                use_tta=use_tta, 
+                                num_augmentations=num_aug,
+                                confidence_threshold=confidence_threshold
+                            )
+                            progress_bar.empty()
                     
-                    st.session_state['prediction'] = {
-                        'class': predicted_class,
-                        'confidence': confidence,
-                        'top3': top3
-                    }
-                    st.rerun()
+                        st.session_state['prediction'] = {
+                            'class': predicted_class,
+                            'confidence': confidence,
+                            'top3': top3,
+                            'is_valid': is_valid
+                        }
+                        st.rerun()
         
         with col2:
             st.markdown("### 📊 Analysis Results")
@@ -1000,65 +1045,104 @@ def main():
             if 'prediction' in st.session_state:
                 pred = st.session_state['prediction']
                 
-                # Show multi-image info if applicable
-                if pred.get('multi_image', False):
-                    st.info(f"📸 **Multi-Image Analysis:** Analyzed {pred['num_images']} images using ensemble prediction for higher accuracy!")
-                
-                # Main prediction
-                st.markdown(f"""
-                <div class="prediction-badge">
-                    🍽️ {pred['class'].replace('_', ' ').title()}
-                </div>
-                """, unsafe_allow_html=True)
-                
-                st.progress(pred['confidence'] / 100, text=f"Confidence: {pred['confidence']:.1f}%")
-                
-                # Show individual predictions if multi-image
-                if pred.get('multi_image', False):
-                    with st.expander(f"📋 Individual Image Results ({pred['num_images']} images)"):
-                        for idx, (pred_class, confidence, _) in enumerate(pred.get('individual_predictions', []), 1):
-                            agreement = "✅" if pred_class == pred['class'] else "⚠️"
-                            st.markdown(f"{agreement} **Image {idx}:** {pred_class.replace('_', ' ').title()} ({confidence:.1f}%)")
-                
-                # Top 3
-                st.markdown("#### 🥇 Top 3 Predictions")
-                for i, (food, conf) in enumerate(pred['top3'], 1):
-                    emoji = "🥇" if i == 1 else "🥈" if i == 2 else "🥉"
-                    st.markdown(f"{emoji} **{food.replace('_', ' ').title()}**: {conf:.1f}%")
-                
-                # Nutrition
-                nutrition = get_nutrition(pred['class'])
-                
-                st.markdown("---")
-                st.markdown("### 🍴 Food Information")
-                
-                # Description and origin
-                st.markdown(f"**📝 Description:** {nutrition['description']}")
-                st.markdown(f"**🗺️ Origin:** {nutrition['origin']}")
-                st.markdown(f"**⏰ Best Time:** {nutrition['best_time']}")
-                
-                st.markdown("---")
-                st.markdown("### 📊 Nutrition Facts (per 100g)")
-                
-                # Nutrition metrics in grid
-                met_col1, met_col2, met_col3, met_col4 = st.columns(4)
-                met_col1.metric("🔥 Calories", f"{nutrition['calories']} kcal")
-                met_col2.metric("🥩 Protein", f"{nutrition['protein']}g")
-                met_col3.metric("🍚 Carbs", f"{nutrition['carbs']}g")
-                met_col4.metric("🧈 Fat", f"{nutrition['fat']}g")
-                
-                st.markdown(f"**🥗 Fiber:** {nutrition['fiber']}g | **💊 Key Vitamins:** {nutrition['vitamins']}")
-                st.info(f"**📏 Serving Size:** {nutrition['serving_size']}")
-                
-                st.markdown("---")
-                st.markdown("### 👨‍🍳 How It's Made")
-                st.markdown(f"<div class='info-section'>{nutrition['preparation']}</div>", unsafe_allow_html=True)
-                
-                st.markdown("### 💡 Health Tips")
-                st.success(nutrition['health_tips'])
-                
-                st.markdown("### 🍽️ Popular Variants")
-                st.markdown(f"_{nutrition['popular_variants']}_")
+                # Check if prediction is valid
+                if not pred.get('is_valid', True):
+                    st.error("⚠️ **Food Not Recognized**")
+                    st.markdown("""
+                    <div style='background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); 
+                                color: white; padding: 20px; border-radius: 10px; margin: 10px 0;'>
+                        <h3 style='margin: 0 0 10px 0;'>🚫 Out of Range Detection</h3>
+                        <p style='margin: 0;'>The uploaded image appears to be outside our trained food categories. 
+                        The AI confidence is only <strong>{:.1f}%</strong>, which is below the threshold.</p>
+                    </div>
+                    """.format(pred['confidence']), unsafe_allow_html=True)
+                    
+                    st.info("""
+                    **💡 Possible reasons:**
+                    - The food is not in our database of 33 Bangladeshi dishes
+                    - The image quality is too low or unclear
+                    - The food is heavily modified or mixed with other items
+                    - The image doesn't contain food
+                    
+                    **📚 Check our Food Database tab** to see all available categories we can recognize!
+                    """)
+                    
+                    # Still show top 3 as reference
+                    with st.expander("📊 Top 3 Possible Matches (Low Confidence)"):
+                        st.warning("These predictions have low confidence and may not be accurate:")
+                        for i, (food, conf) in enumerate(pred['top3'], 1):
+                            emoji = "1️⃣" if i == 1 else "2️⃣" if i == 2 else "3️⃣"
+                            st.markdown(f"{emoji} {food.replace('_', ' ').title()}: {conf:.1f}%")
+                    
+                    st.markdown("---")
+                    st.markdown("### 💡 What to do next?")
+                    st.markdown("""
+                    1. **Check our Food Database** to see if your food is available
+                    2. **Try a clearer image** with better lighting
+                    3. **Use multiple images** from different angles for better results
+                    4. **Make sure the food is clearly visible** in the image
+                    """)
+                    
+                else:
+                    # Show multi-image info if applicable
+                    if pred.get('multi_image', False):
+                        st.info(f"📸 **Multi-Image Analysis:** Analyzed {pred['num_images']} images using ensemble prediction for higher accuracy!")
+                    
+                    # Main prediction
+                    st.markdown(f"""
+                    <div class="prediction-badge">
+                        🍽️ {pred['class'].replace('_', ' ').title()}
+                    </div>
+                    """, unsafe_allow_html=True)
+                    
+                    st.progress(pred['confidence'] / 100, text=f"Confidence: {pred['confidence']:.1f}%")
+                    
+                    # Show individual predictions if multi-image
+                    if pred.get('multi_image', False):
+                        with st.expander(f"📋 Individual Image Results ({pred['num_images']} images)"):
+                            for idx, (pred_class, confidence, _) in enumerate(pred.get('individual_predictions', []), 1):
+                                agreement = "✅" if pred_class == pred['class'] else "⚠️"
+                                st.markdown(f"{agreement} **Image {idx}:** {pred_class.replace('_', ' ').title()} ({confidence:.1f}%)")
+                    
+                    # Top 3
+                    st.markdown("#### 🥇 Top 3 Predictions")
+                    for i, (food, conf) in enumerate(pred['top3'], 1):
+                        emoji = "🥇" if i == 1 else "🥈" if i == 2 else "🥉"
+                        st.markdown(f"{emoji} **{food.replace('_', ' ').title()}**: {conf:.1f}%")
+                    
+                    # Nutrition
+                    nutrition = get_nutrition(pred['class'])
+                    
+                    st.markdown("---")
+                    st.markdown("### 🍴 Food Information")
+                    
+                    # Description and origin
+                    st.markdown(f"**📝 Description:** {nutrition['description']}")
+                    st.markdown(f"**🗺️ Origin:** {nutrition['origin']}")
+                    st.markdown(f"**⏰ Best Time:** {nutrition['best_time']}")
+                    
+                    st.markdown("---")
+                    st.markdown("### 📊 Nutrition Facts (per 100g)")
+                    
+                    # Nutrition metrics in grid
+                    met_col1, met_col2, met_col3, met_col4 = st.columns(4)
+                    met_col1.metric("🔥 Calories", f"{nutrition['calories']} kcal")
+                    met_col2.metric("🥩 Protein", f"{nutrition['protein']}g")
+                    met_col3.metric("🍚 Carbs", f"{nutrition['carbs']}g")
+                    met_col4.metric("🧈 Fat", f"{nutrition['fat']}g")
+                    
+                    st.markdown(f"**🥗 Fiber:** {nutrition['fiber']}g | **💊 Key Vitamins:** {nutrition['vitamins']}")
+                    st.info(f"**📏 Serving Size:** {nutrition['serving_size']}")
+                    
+                    st.markdown("---")
+                    st.markdown("### 👨‍🍳 How It's Made")
+                    st.markdown(f"<div class='info-section'>{nutrition['preparation']}</div>", unsafe_allow_html=True)
+                    
+                    st.markdown("### 💡 Health Tips")
+                    st.success(nutrition['health_tips'])
+                    
+                    st.markdown("### 🍽️ Popular Variants")
+                    st.markdown(f"_{nutrition['popular_variants']}_")
                 
             else:
                 st.info("👆 Upload an image and click 'Analyze Food' to see results")

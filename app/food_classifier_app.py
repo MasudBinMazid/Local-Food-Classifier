@@ -1100,7 +1100,7 @@ def main():
                     # Show individual predictions if multi-image
                     if pred.get('multi_image', False):
                         with st.expander(f"📋 Individual Image Results ({pred['num_images']} images)"):
-                            for idx, (pred_class, confidence, _) in enumerate(pred.get('individual_predictions', []), 1):
+                            for idx, (pred_class, confidence, _, _) in enumerate(pred.get('individual_predictions', []), 1):
                                 agreement = "✅" if pred_class == pred['class'] else "⚠️"
                                 st.markdown(f"{agreement} **Image {idx}:** {pred_class.replace('_', ' ').title()} ({confidence:.1f}%)")
                     

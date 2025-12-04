@@ -35,6 +35,21 @@ st.markdown("""
         font-family: 'Poppins', sans-serif;
     }
     
+    /* Override all text colors for dark theme */
+    .stApp, .stApp p, .stApp span, .stApp div, .stApp label {
+        color: #e0e0e0 !important;
+    }
+    
+    /* Headers */
+    .stApp h1, .stApp h2, .stApp h3, .stApp h4, .stApp h5, .stApp h6 {
+        color: #ffffff !important;
+    }
+    
+    /* Input labels and help text */
+    .stApp label, .stApp .stMarkdown {
+        color: #d0d0d0 !important;
+    }
+    
     /* Hide Streamlit branding */
     #MainMenu {visibility: hidden;}
     footer {visibility: hidden;}
@@ -146,13 +161,35 @@ st.markdown("""
     
     /* Sidebar Styling */
     section[data-testid="stSidebar"] {
-        background: rgba(15, 12, 41, 0.95);
+        background: rgba(15, 12, 41, 0.95) !important;
         backdrop-filter: blur(10px);
         border-right: 1px solid rgba(255, 255, 255, 0.1);
     }
     
     section[data-testid="stSidebar"] > div {
-        background: transparent;
+        background: transparent !important;
+    }
+    
+    /* Sidebar text colors */
+    section[data-testid="stSidebar"] * {
+        color: #e0e0e0 !important;
+    }
+    
+    section[data-testid="stSidebar"] h1,
+    section[data-testid="stSidebar"] h2,
+    section[data-testid="stSidebar"] h3,
+    section[data-testid="stSidebar"] h4 {
+        color: #ffffff !important;
+    }
+    
+    /* Ensure sidebar is visible */
+    section[data-testid="stSidebar"][aria-expanded="true"] {
+        min-width: 280px !important;
+        max-width: 400px !important;
+    }
+    
+    section[data-testid="stSidebar"][aria-expanded="false"] {
+        margin-left: -280px;
     }
     
     /* File Uploader */
@@ -169,31 +206,58 @@ st.markdown("""
         background: rgba(102, 126, 234, 0.1);
     }
     
+    .stFileUploader label,
+    .stFileUploader span,
+    .stFileUploader p {
+        color: #e0e0e0 !important;
+    }
+    
     /* Progress Bar */
     .stProgress > div > div {
         background: linear-gradient(90deg, #667eea 0%, #764ba2 100%);
         border-radius: 10px;
     }
     
+    .stProgress p {
+        color: #e0e0e0 !important;
+    }
+    
     /* Expander */
     .streamlit-expanderHeader {
-        background: rgba(255, 255, 255, 0.05);
+        background: rgba(255, 255, 255, 0.05) !important;
         border-radius: 10px;
         color: #e0e0e0 !important;
         font-weight: 600;
     }
     
+    .streamlit-expanderHeader p, 
+    .streamlit-expanderHeader span {
+        color: #e0e0e0 !important;
+    }
+    
     .streamlit-expanderContent {
-        background: rgba(255, 255, 255, 0.03);
+        background: rgba(255, 255, 255, 0.03) !important;
         border-radius: 0 0 10px 10px;
-        color: #d0d0d0;
+        color: #d0d0d0 !important;
+    }
+    
+    .streamlit-expanderContent * {
+        color: #d0d0d0 !important;
     }
     
     /* Metrics */
     [data-testid="stMetricValue"] {
-        color: #667eea;
+        color: #667eea !important;
         font-weight: 700;
         font-size: clamp(1.5rem, 3vw, 2rem);
+    }
+    
+    [data-testid="stMetricLabel"] {
+        color: #b0b0b0 !important;
+    }
+    
+    [data-testid="stMetricDelta"] {
+        color: #d0d0d0 !important;
     }
     
     /* Tabs */
@@ -207,15 +271,19 @@ st.markdown("""
     .stTabs [data-baseweb="tab"] {
         background: transparent;
         border-radius: 10px;
-        color: #b0b0b0;
+        color: #b0b0b0 !important;
         font-weight: 600;
         padding: 0.75rem 1.5rem;
         transition: all 0.3s ease;
     }
     
     .stTabs [aria-selected="true"] {
-        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        color: white;
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%) !important;
+        color: white !important;
+    }
+    
+    .stTabs [aria-selected="true"] * {
+        color: white !important;
     }
     
     /* Animations */
@@ -232,6 +300,33 @@ st.markdown("""
     @keyframes pulse {
         0%, 100% { transform: scale(1); }
         50% { transform: scale(1.05); }
+    }
+    
+    /* Form Elements */
+    .stCheckbox label, .stRadio label {
+        color: #e0e0e0 !important;
+    }
+    
+    .stSlider label {
+        color: #e0e0e0 !important;
+    }
+    
+    .stSelectbox label {
+        color: #e0e0e0 !important;
+    }
+    
+    .stTextInput label, .stTextArea label {
+        color: #e0e0e0 !important;
+    }
+    
+    /* Alert boxes - keep original colors for readability */
+    .stAlert p, .stAlert span {
+        color: inherit !important;
+    }
+    
+    /* Dataframe */
+    .dataframe {
+        color: #e0e0e0 !important;
     }
     
     /* Mobile Optimization */

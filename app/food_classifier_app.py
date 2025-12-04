@@ -19,60 +19,213 @@ st.set_page_config(
     page_title="🍛 Bangladeshi Food Classifier",
     page_icon="🍛",
     layout="wide",
-    initial_sidebar_state="expanded"
+    initial_sidebar_state="auto"
 )
 
-# Custom CSS for modern design
+# Custom CSS for modern design with mobile responsiveness
 st.markdown("""
 <style>
+    /* Mobile-First Responsive Design */
     .main-header {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-        padding: 2rem;
+        padding: 1.5rem;
         border-radius: 15px;
         text-align: center;
         color: white;
-        margin-bottom: 2rem;
+        margin-bottom: 1.5rem;
         box-shadow: 0 4px 6px rgba(0,0,0,0.1);
     }
+    
+    .main-header h1 {
+        font-size: clamp(1.5rem, 4vw, 2.5rem);
+        margin-bottom: 0.5rem;
+    }
+    
+    .main-header p {
+        font-size: clamp(0.9rem, 2vw, 1.2rem);
+    }
+    
     .food-card {
         background: white;
-        padding: 1.5rem;
+        padding: 1rem;
         border-radius: 15px;
         box-shadow: 0 4px 6px rgba(0,0,0,0.1);
         margin: 1rem 0;
         border-left: 5px solid #667eea;
     }
+    
     .prediction-badge {
         background: linear-gradient(135deg, #4facfe 0%, #00f2fe 100%);
-        padding: 1rem 2rem;
+        padding: 0.75rem 1.5rem;
         border-radius: 50px;
         color: white;
-        font-size: 1.5rem;
+        font-size: clamp(1.1rem, 3vw, 1.5rem);
         font-weight: bold;
         display: inline-block;
-        margin: 1rem 0;
+        margin: 0.75rem 0;
+        word-break: break-word;
     }
+    
     .info-section {
         background: #f8f9fa;
-        padding: 1.5rem;
+        padding: 1rem;
         border-radius: 10px;
-        margin: 1rem 0;
+        margin: 0.75rem 0;
+        font-size: clamp(0.85rem, 2vw, 1rem);
     }
+    
     .stButton>button {
         background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
         color: white;
         border-radius: 25px;
-        padding: 0.75rem 2rem;
+        padding: 0.75rem 1.5rem;
         font-weight: bold;
         border: none;
         box-shadow: 0 4px 6px rgba(0,0,0,0.2);
         transition: all 0.3s;
+        width: 100%;
+        font-size: clamp(0.9rem, 2.5vw, 1.1rem);
     }
+    
     .stButton>button:hover {
         transform: translateY(-2px);
         box-shadow: 0 6px 8px rgba(0,0,0,0.3);
     }
+    
+    /* Mobile Optimization */
+    @media (max-width: 768px) {
+        .main-header {
+            padding: 1rem;
+            border-radius: 10px;
+            margin-bottom: 1rem;
+        }
+        
+        .food-card, .info-section {
+            padding: 0.75rem;
+            margin: 0.5rem 0;
+            border-radius: 10px;
+        }
+        
+        .prediction-badge {
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+        }
+        
+        /* Stack columns on mobile */
+        .stColumn {
+            width: 100% !important;
+            flex: 1 1 100% !important;
+            max-width: 100% !important;
+        }
+        
+        /* Adjust sidebar for mobile */
+        section[data-testid="stSidebar"] {
+            width: 100% !important;
+            min-width: auto !important;
+        }
+        
+        /* Make images responsive */
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+        
+        /* Adjust text sizes */
+        h1 { font-size: 1.5rem !important; }
+        h2 { font-size: 1.3rem !important; }
+        h3 { font-size: 1.1rem !important; }
+        p { font-size: 0.9rem !important; }
+    }
+    
+    @media (max-width: 480px) {
+        .main-header {
+            padding: 0.75rem;
+        }
+        
+        .main-header h1 {
+            font-size: 1.25rem;
+        }
+        
+        .main-header p {
+            font-size: 0.85rem;
+        }
+        
+        .stButton>button {
+            padding: 0.6rem 1rem;
+            font-size: 0.9rem;
+        }
+    }
+    
+    /* Touch-friendly elements */
+    @media (hover: none) and (pointer: coarse) {
+        .stButton>button, a, input, select {
+            min-height: 44px;
+            min-width: 44px;
+        }
+    }
+    
+    /* PWA Install Banner */
+    .install-banner {
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+        color: white;
+        padding: 1rem 2rem;
+        border-radius: 50px;
+        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+        z-index: 1000;
+        display: none;
+        font-size: 0.9rem;
+        text-align: center;
+    }
+    
+    .install-banner.show {
+        display: block;
+    }
 </style>
+
+<!-- PWA Meta Tags -->
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="Food Classifier">
+<meta name="theme-color" content="#667eea">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, user-scalable=yes">
+
+<!-- PWA Service Worker Registration -->
+<script>
+    if ('serviceWorker' in navigator) {
+        window.addEventListener('load', function() {
+            navigator.serviceWorker.register('/service-worker.js')
+                .then(function(registration) {
+                    console.log('ServiceWorker registered:', registration.scope);
+                })
+                .catch(function(error) {
+                    console.log('ServiceWorker registration failed:', error);
+                });
+        });
+    }
+    
+    // PWA Install Prompt
+    let deferredPrompt;
+    window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        
+        // Show install banner
+        const banner = document.querySelector('.install-banner');
+        if (banner) {
+            banner.classList.add('show');
+        }
+    });
+    
+    // Check if running as PWA
+    if (window.matchMedia('(display-mode: standalone)').matches) {
+        console.log('Running as PWA');
+    }
+</script>
 """, unsafe_allow_html=True)
 
 # ============================================

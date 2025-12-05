@@ -1512,7 +1512,7 @@ def main():
     st.markdown("<br><br>", unsafe_allow_html=True)
     
     # Footer with links and modals
-    col1, col2, col3 = st.columns(3)
+    col1, col2, col3, col4 = st.columns(4)
     
     with col1:
         if st.button("📖 About", use_container_width=True):
@@ -1525,6 +1525,26 @@ def main():
     with col3:
         if st.button("🔒 Privacy Policy", use_container_width=True):
             st.session_state.show_privacy = True
+    
+    with col4:
+        st.markdown("""
+            <a href="https://github.com/MasudBinMazid/LF-Classifier-App/releases/download/v1.0.0/LF-Classifier-v1.0.0.apk" 
+               target="_blank" 
+               style="text-decoration: none;">
+                <button style="width: 100%; 
+                              padding: 0.5rem; 
+                              background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+                              color: white; 
+                              border: none; 
+                              border-radius: 0.5rem; 
+                              cursor: pointer;
+                              font-size: 0.9rem;
+                              font-weight: 500;
+                              transition: transform 0.2s;">
+                    📱 Download Mobile App
+                </button>
+            </a>
+        """, unsafe_allow_html=True)
     
     # Display modals using expanders
     if st.session_state.get('show_about', False):

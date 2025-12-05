@@ -16,8 +16,8 @@ import time
 
 # Page config
 st.set_page_config(
-    page_title="🍛 Bangladeshi Food Classifier",
-    page_icon="🍛",
+    page_title="Bangladeshi Food Classifier",
+    page_icon="🍕",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -736,7 +736,7 @@ def main():
     <div style='background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); 
                 border-bottom: 1px solid rgba(255, 255, 255, 0.1); padding: 2rem; 
                 text-align: center; margin-bottom: 2rem; border-radius: 15px;'>
-        <h1 style='color: #ffffff; margin-bottom: 0.5rem;'>🍛 Bangladeshi Food Classifier</h1>
+        <h1 style='color: #ffffff; margin-bottom: 0.5rem;'>Bangladeshi Food Classifier</h1>
         <p style='color: #b0b0b0; margin: 0; font-size: 1.1rem;'>AI-Powered Food Recognition & Nutrition Analysis</p>
     </div>
     """, unsafe_allow_html=True)
@@ -939,6 +939,30 @@ def main():
                             img = Image.open(img_file).convert('RGB')
                             st.image(img, caption=f"Image {idx+1}", use_container_width=True)
                     
+                    st.markdown("<br>", unsafe_allow_html=True)
+                    
+                    # Confidence level selector for multi-image mode
+                    st.markdown("### 🎯 Set Confidence Level")
+                    confidence_threshold = st.slider(
+                        "Choose minimum confidence level for prediction",
+                        min_value=30.0,
+                        max_value=90.0,
+                        value=st.session_state.get('confidence_threshold', 60.0),
+                        step=5.0,
+                        help="Higher values make the model more strict. Recommended: 60%",
+                        key="multi_confidence"
+                    )
+                    st.session_state['confidence_threshold'] = confidence_threshold
+                    
+                    # Visual feedback
+                    if confidence_threshold < 50:
+                        st.warning(f"⚠️ **{confidence_threshold:.0f}%** - Low threshold (More permissive)")
+                    elif confidence_threshold <= 70:
+                        st.success(f"✅ **{confidence_threshold:.0f}%** - Medium threshold (Recommended)")
+                    else:
+                        st.info(f"🔒 **{confidence_threshold:.0f}%** - High threshold (Very strict)")
+                    
+                    st.markdown("<br>", unsafe_allow_html=True)
                     if st.button("🔍 Analyze All Images", type="primary", use_container_width=True):
                         use_tta = st.session_state.get('use_tta', True)
                         num_aug = st.session_state.get('num_augmentations', 5)
@@ -1030,6 +1054,28 @@ def main():
                 if uploaded_image:
                     image = Image.open(uploaded_image).convert('RGB')
                     st.image(image, caption="📸 Your uploaded image", use_container_width=True)
+                    
+                    st.markdown("<br>", unsafe_allow_html=True)
+                    
+                    # Confidence level selector after image upload
+                    st.markdown("### 🎯 Set Confidence Level")
+                    confidence_threshold = st.slider(
+                        "Choose minimum confidence level for prediction",
+                        min_value=30.0,
+                        max_value=90.0,
+                        value=st.session_state.get('confidence_threshold', 60.0),
+                        step=5.0,
+                        help="Higher values make the model more strict. Recommended: 60%"
+                    )
+                    st.session_state['confidence_threshold'] = confidence_threshold
+                    
+                    # Visual feedback
+                    if confidence_threshold < 50:
+                        st.warning(f"⚠️ **{confidence_threshold:.0f}%** - Low threshold (More permissive)")
+                    elif confidence_threshold <= 70:
+                        st.success(f"✅ **{confidence_threshold:.0f}%** - Medium threshold (Recommended)")
+                    else:
+                        st.info(f"🔒 **{confidence_threshold:.0f}%** - High threshold (Very strict)")
                     
                     st.markdown("<br>", unsafe_allow_html=True)
                     if st.button("🔍 Analyze Food with AI", type="primary", use_container_width=True):
@@ -1303,13 +1349,13 @@ def main():
                     border-top: 1px solid rgba(255, 255, 255, 0.1); padding: 2rem; 
                     text-align: center; margin-top: 2rem; border-radius: 15px;'>
             <p style='color: #b0b0b0; margin-bottom: 1rem; font-size: 0.9rem;'>
-                🍛 Bangladeshi Food Classifier &copy; 2025
+                Bangladeshi Food Classifier &copy; 2025
             </p>
             <p style='margin: 0.5rem 0;'>
                 Developed by 
                 <a href='https://github.com/MasudBinMazid' target='_blank' 
                    style='color: #667eea; text-decoration: none; font-weight: 600;'>
-                    Masud Rana Mamun & Momen Miah
+                    Masud
                 </a>
             </p>
             <p style='color: #808080; font-size: 0.85rem; margin-top: 1rem;'>

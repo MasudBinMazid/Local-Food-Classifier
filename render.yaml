@@ -1,0 +1,12 @@
+# Render.com Configuration
+# This file tells Render how to deploy the backend service
+
+services:
+  - type: web
+    name: food-classifier-api
+    runtime: docker
+    dockerfilePath: ./backend/Dockerfile
+    dockerContext: ./backend
+    envVars:
+      - key: PORT
+        value: 8000

@@ -239,316 +239,562 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # ============================================
-# COMPREHENSIVE NUTRITION DATABASE
+# COMPREHENSIVE NUTRITION DATABASE FOR 33 BANGLADESHI FOODS
 # ============================================
 NUTRITION_DATA = {
-    "biryani": {
-        "calories": 290, "protein": 12, "carbs": 35, "fat": 12, "fiber": 1.5,
-        "description": "Aromatic layered rice dish with marinated meat, fragrant spices, and fried onions",
-        "origin": "Dhaka, Chittagong, Sylhet (influenced by Mughal cuisine)",
-        "preparation": "Rice and meat cooked separately, then layered with saffron, ghee, and fried onions. Sealed and slow-cooked (dum) to perfection.",
-        "best_time": "Lunch or special occasions",
-        "health_tips": "High in carbs and protein - good post-workout meal. Watch portion size due to oil content. Opt for brown rice version for more fiber.",
-        "vitamins": "B vitamins (B6, B12), Iron, Zinc",
-        "serving_size": "1 plate (250g) = 725 calories",
-        "popular_variants": "Kacchi Biryani, Morog Polao, Tehari"
+    "alu_vorta": {
+        "calories": 95, "protein": 2.1, "carbs": 18.5, "fat": 2.5, "fiber": 2.3,
+        "description": "Mashed potato with mustard oil, green chilies, onions, and coriander",
+        "origin": "Popular across Bangladesh, especially in rural areas",
+        "preparation": "Boil potatoes until soft, mash them, and mix with mustard oil, green chilies, onions, salt, and coriander leaves. Some add garlic for extra flavor.",
+        "best_time": "Lunch or dinner as side dish",
+        "health_tips": [
+            "✓ Good source of vitamin C and potassium",
+            "✓ Low in calories, suitable for weight management",
+            "✓ Mustard oil provides healthy omega-3 fatty acids",
+            "Avoid excessive oil to keep it heart-healthy"
+        ],
+        "vitamins": "Vitamin C, Potassium, Omega-3",
+        "serving_size": "100g",
+        "popular_variants": "Plain Alu Vorta, with Garlic, with Egg"
     },
-    "bhuna_khichuri": {
-        "calories": 180, "protein": 6, "carbs": 28, "fat": 5, "fiber": 3,
-        "description": "Comfort food made with rice and lentils, cooked together with aromatic spices",
-        "origin": "Rural Bengal, popular across Bangladesh",
-        "preparation": "Rice and lentils roasted in ghee with onions and spices, then simmered with water until creamy. Often served with fried eggplant.",
-        "best_time": "Rainy days, winter evenings",
-        "health_tips": "Complete protein source when rice and lentils combine. Easy to digest. Great for weight management.",
-        "vitamins": "Folate, Iron, Magnesium, B vitamins",
-        "serving_size": "1 bowl (200g) = 360 calories",
-        "popular_variants": "Plain Khichuri, Bhuna Khichuri, Moong Dal Khichuri"
+    "bakorkhani": {
+        "calories": 385, "protein": 8.5, "carbs": 58.0, "fat": 13.0, "fiber": 2.1,
+        "description": "Thick, crispy flatbread made from refined flour, ghee, milk, and sugar",
+        "origin": "Old Dhaka specialty, popular during Ramadan",
+        "preparation": "Made from refined flour, ghee, milk, and sugar. Dough is layered with ghee, rolled thin, and baked in a clay oven (tandoor) until crispy and flaky.",
+        "best_time": "Iftar during Ramadan, breakfast with tea",
+        "health_tips": [
+            "⚠️ High in calories and carbs - consume in moderation",
+            "⚠️ Contains saturated fat from ghee",
+            "Best paired with tea and enjoyed occasionally",
+            "Good energy source for breaking fast during Ramadan"
+        ],
+        "vitamins": "B vitamins, Iron",
+        "serving_size": "100g",
+        "popular_variants": "Sweet Bakorkhani, Savory Bakorkhani"
     },
-    "chapati": {
-        "calories": 120, "protein": 4, "carbs": 25, "fat": 1, "fiber": 2,
-        "description": "Whole wheat flatbread - staple in Bangladeshi households",
-        "origin": "Common across Bangladesh, influenced by North Indian cuisine",
-        "preparation": "Whole wheat dough rolled thin and cooked on a hot griddle (tawa) without oil. Puffed over open flame for softness.",
-        "best_time": "Any meal - breakfast, lunch, dinner",
-        "health_tips": "Low fat, high fiber. Better than white rice for blood sugar control. Good for diabetics and weight watchers.",
-        "vitamins": "B vitamins, Iron, Magnesium",
-        "serving_size": "1 piece (50g) = 60 calories",
-        "popular_variants": "Plain Chapati, Atta Roti, Missi Roti"
-    },
-    "chicken_curry": {
-        "calories": 180, "protein": 18, "carbs": 8, "fat": 10, "fiber": 1,
-        "description": "Traditional chicken cooked in rich, spiced gravy",
-        "origin": "Popular nationwide - Dhaka, Chittagong, Sylhet",
-        "preparation": "Chicken marinated in spices, cooked with onion-tomato-ginger-garlic paste, finished with garam masala and fresh coriander.",
+    "bhapa": {
+        "calories": 245, "protein": 18.5, "carbs": 8.2, "fat": 16.0, "fiber": 1.2,
+        "description": "Steamed fish in mustard paste - traditional delicacy",
+        "origin": "Traditional across Bangladesh, especially Sylhet",
+        "preparation": "Fish (typically hilsa or rui) marinated with mustard paste, green chilies, turmeric, and salt, then steamed in banana leaves or aluminum foil.",
         "best_time": "Lunch or dinner",
-        "health_tips": "Excellent protein source. Choose skinless chicken for lower fat. Rich in selenium and B vitamins for metabolism.",
+        "health_tips": [
+            "✓ Excellent source of protein and omega-3 fatty acids",
+            "✓ Steaming preserves nutrients better than frying",
+            "✓ Mustard has anti-inflammatory properties",
+            "Low in carbs, suitable for diabetics"
+        ],
+        "vitamins": "Omega-3, Protein, Vitamin D, Selenium",
+        "serving_size": "100g",
+        "popular_variants": "Ilish Bhapa, Rui Bhapa, Pabda Bhapa"
+    },
+    "burger": {
+        "calories": 295, "protein": 17.0, "carbs": 24.0, "fat": 14.0, "fiber": 1.5,
+        "description": "Grilled or fried patty in a bun with vegetables and sauces",
+        "origin": "Urban areas, popular fast food in Dhaka and Chittagong",
+        "preparation": "Grilled or fried beef/chicken patty served in a bun with lettuce, tomato, onion, cheese, and sauces. Local variations include spicy chicken and beef burgers.",
+        "best_time": "Snacks, lunch, dinner",
+        "health_tips": [
+            "⚠️ High in calories and saturated fat",
+            "Choose grilled over fried patties",
+            "Add more vegetables for fiber",
+            "Limit consumption to occasional treats"
+        ],
+        "vitamins": "B vitamins, Iron, Protein",
+        "serving_size": "100g",
+        "popular_variants": "Chicken Burger, Beef Burger, Veggie Burger"
+    },
+    "chicken": {
+        "calories": 165, "protein": 31.0, "carbs": 0.0, "fat": 3.6, "fiber": 0.0,
+        "description": "Versatile poultry - prepared in various ways",
+        "origin": "Widely consumed across Bangladesh",
+        "preparation": "Can be prepared in various ways - curry, roasted, fried, or grilled. Common preparation includes cooking with onions, garlic, ginger, and spices.",
+        "best_time": "Any meal",
+        "health_tips": [
+            "✓ Excellent lean protein source",
+            "✓ Low in fat when skinless",
+            "✓ Rich in vitamins B6 and B12",
+            "Choose grilled or boiled over fried preparations"
+        ],
         "vitamins": "B6, B12, Niacin, Selenium, Phosphorus",
-        "serving_size": "1 serving (150g) = 270 calories",
-        "popular_variants": "Rezala, Korma, Roast, Jhol (curry)"
+        "serving_size": "100g",
+        "popular_variants": "Chicken Curry, Roast, Grilled, Fried"
+    },
+    "chicken_roast": {
+        "calories": 280, "protein": 26.5, "carbs": 5.5, "fat": 17.0, "fiber": 0.8,
+        "description": "Deep-fried chicken in rich spiced gravy with potatoes and eggs",
+        "origin": "Popular in Dhaka and urban areas, wedding/party dish",
+        "preparation": "Chicken marinated in yogurt, ginger-garlic paste, and spices, then deep-fried and cooked in a rich gravy with potatoes, eggs, and aromatic spices.",
+        "best_time": "Special occasions, parties, weddings",
+        "health_tips": [
+            "⚠️ High in calories and fat due to frying",
+            "✓ Good protein content",
+            "Consume in moderation",
+            "Remove excess oil before eating"
+        ],
+        "vitamins": "B vitamins, Iron, Protein",
+        "serving_size": "100g",
+        "popular_variants": "Spicy Roast, Mild Roast, Hotel Style"
+    },
+    "chingri_vuna": {
+        "calories": 195, "protein": 24.0, "carbs": 6.5, "fat": 8.5, "fiber": 1.5,
+        "description": "Prawns sautéed with spices in thick masala",
+        "origin": "Coastal areas - Khulna, Barisal, Chittagong",
+        "preparation": "Prawns sautéed with onions, garlic, ginger, tomatoes, and spices in mustard oil. Cooked until the masala thickens and coats the prawns.",
+        "best_time": "Lunch or dinner",
+        "health_tips": [
+            "✓ Excellent source of protein and omega-3",
+            "✓ Rich in selenium and vitamin B12",
+            "✓ Low in carbohydrates",
+            "⚠️ High in cholesterol - consume moderately if at risk"
+        ],
+        "vitamins": "Omega-3, B12, Selenium, Protein",
+        "serving_size": "100g",
+        "popular_variants": "Bagda Chingri, Galda Chingri, Chingri Malai"
+    },
+    "chomchom": {
+        "calories": 350, "protein": 6.5, "carbs": 52.0, "fat": 13.0, "fiber": 0.2,
+        "description": "Oval-shaped cottage cheese sweet soaked in sugar syrup",
+        "origin": "Tangail and Porabari are famous for authentic Chomchom",
+        "preparation": "Made from chhana (cottage cheese) mixed with semolina, shaped into ovals, and soaked in sugar syrup flavored with cardamom and rose water.",
+        "best_time": "Dessert, festivals, celebrations",
+        "health_tips": [
+            "⚠️ Very high in sugar and calories",
+            "⚠️ Not suitable for diabetics",
+            "Consume as an occasional treat only",
+            "Contains some protein from milk"
+        ],
+        "vitamins": "Calcium, Protein",
+        "serving_size": "100g",
+        "popular_variants": "Tangail Chomchom, Porabari Chomchom"
+    },
+    "chowmein": {
+        "calories": 198, "protein": 6.5, "carbs": 28.5, "fat": 6.8, "fiber": 2.4,
+        "description": "Stir-fried noodles with vegetables and meat",
+        "origin": "Popular street food in Dhaka, Chittagong, and Sylhet",
+        "preparation": "Stir-fried noodles with vegetables (cabbage, carrots, capsicum), chicken or egg, and soy sauce. Cooked on high heat in a wok.",
+        "best_time": "Lunch, dinner, snacks",
+        "health_tips": [
+            "✓ Moderate calorie content",
+            "✓ Contains vegetables providing vitamins",
+            "Choose whole wheat noodles for more fiber",
+            "Control oil quantity to reduce fat"
+        ],
+        "vitamins": "B vitamins, Vitamin A, Iron",
+        "serving_size": "100g",
+        "popular_variants": "Chicken Chowmein, Vegetable Chowmein, Egg Chowmein"
     },
     "dal": {
-        "calories": 120, "protein": 8, "carbs": 20, "fat": 2, "fiber": 4,
+        "calories": 116, "protein": 9.0, "carbs": 20.0, "fat": 0.5, "fiber": 7.9,
         "description": "Lentil soup - the heart of Bengali meals, cooked with turmeric and spices",
-        "origin": "Universal across Bangladesh - daily staple",
-        "preparation": "Lentils boiled with turmeric, tempered with garlic, onion, dried chilies in mustard oil. Finished with fresh coriander.",
+        "origin": "Staple food across all regions of Bangladesh",
+        "preparation": "Lentils boiled with turmeric and salt, then tempered with onions, garlic, and spices fried in oil. Common varieties include masoor, moong, and chana dal.",
         "best_time": "Every meal - breakfast, lunch, dinner",
-        "health_tips": "Plant-based protein powerhouse. High fiber aids digestion. Low fat and heart-healthy. Great for vegans.",
+        "health_tips": [
+            "✓ Excellent plant-based protein source",
+            "✓ High in fiber, aids digestion",
+            "✓ Rich in iron and folate",
+            "✓ Low in fat and calories",
+            "Perfect for vegetarians and weight management"
+        ],
         "vitamins": "Folate, Iron, Magnesium, Potassium, Zinc",
-        "serving_size": "1 bowl (200ml) = 240 calories",
+        "serving_size": "100g",
         "popular_variants": "Masoor Dal, Moong Dal, Chana Dal, Mixed Dal"
     },
     "egg_curry": {
-        "calories": 150, "protein": 10, "carbs": 5, "fat": 11, "fiber": 1,
+        "calories": 185, "protein": 11.5, "carbs": 8.5, "fat": 12.0, "fiber": 2.1,
         "description": "Hard-boiled eggs in spiced tomato-onion gravy",
-        "origin": "Popular across Bangladesh, affordable protein source",
-        "preparation": "Boiled eggs fried lightly, then simmered in curry made with onion, tomato, ginger-garlic paste, and aromatic spices.",
+        "origin": "Popular across Bangladesh, especially as a breakfast item",
+        "preparation": "Boiled eggs cooked in onion-tomato gravy with ginger, garlic, and spices (turmeric, cumin, coriander, chili powder). Often garnished with coriander leaves.",
         "best_time": "Any meal - common breakfast with paratha",
-        "health_tips": "Complete protein with all essential amino acids. Rich in vitamin B12, choline for brain health. Budget-friendly nutrition.",
+        "health_tips": [
+            "✓ Good source of complete protein",
+            "✓ Contains vitamins A, D, E, and B12",
+            "✓ Affordable protein option",
+            "⚠️ Moderate fat content - control oil quantity"
+        ],
         "vitamins": "B12, D, A, Choline, Selenium",
-        "serving_size": "2 eggs with gravy (150g) = 225 calories",
+        "serving_size": "100g",
         "popular_variants": "Dim Bhuna, Dimer Dalna, Egg Masala"
     },
-    "fish_curry": {
-        "calories": 140, "protein": 16, "carbs": 6, "fat": 6, "fiber": 0.5,
-        "description": "Fresh fish cooked in traditional Bengali spices",
-        "origin": "Nationwide - Bangladesh is land of rivers",
-        "preparation": "Fish marinated with turmeric, lightly fried, then cooked in gravy with mustard, nigella seeds, and green chilies.",
-        "best_time": "Lunch or dinner",
-        "health_tips": "Omega-3 rich for heart and brain health. High-quality protein. Choose small fish for calcium from bones.",
-        "vitamins": "Omega-3, D, B12, Selenium, Iodine",
-        "serving_size": "1 serving (150g) = 210 calories",
-        "popular_variants": "Rui Curry, Katla Jhol, Hilsha Curry, Pabda Curry"
+    "french_fries": {
+        "calories": 312, "protein": 3.4, "carbs": 41.0, "fat": 15.0, "fiber": 3.8,
+        "description": "Deep-fried potato strips",
+        "origin": "Urban fast food centers across Bangladesh",
+        "preparation": "Potatoes cut into strips and deep-fried until golden and crispy. Often seasoned with salt and served with ketchup or mayonnaise.",
+        "best_time": "Snacks",
+        "health_tips": [
+            "⚠️ High in calories and unhealthy fats",
+            "⚠️ Deep-fried, increases trans fat content",
+            "Contains acrylamide when overcooked",
+            "Limit consumption to occasional treats",
+            "Baked version is a healthier alternative"
+        ],
+        "vitamins": "Potassium, Vitamin C",
+        "serving_size": "100g",
+        "popular_variants": "Crispy Fries, Curly Fries, Wedges"
     },
-    "fried_rice": {
-        "calories": 250, "protein": 8, "carbs": 35, "fat": 9, "fiber": 2,
-        "description": "Stir-fried rice with vegetables, eggs, and soy sauce",
-        "origin": "Chinese-influenced, popular in Dhaka and urban areas",
-        "preparation": "Day-old rice stir-fried on high heat with vegetables, eggs, soy sauce, and optional chicken or shrimp.",
-        "best_time": "Lunch or dinner",
-        "health_tips": "Moderate calories. Add more vegetables for fiber and nutrients. Use brown rice for healthier version.",
-        "vitamins": "B vitamins, Vitamin A (from carrots), Iron",
-        "serving_size": "1 plate (250g) = 625 calories",
-        "popular_variants": "Chicken Fried Rice, Vegetable Fried Rice, Shrimp Fried Rice"
+    "fried_chicken": {
+        "calories": 320, "protein": 24.0, "carbs": 12.5, "fat": 20.0, "fiber": 0.8,
+        "description": "Crispy battered and deep-fried chicken",
+        "origin": "Popular fast food in Dhaka, Chittagong, and Sylhet",
+        "preparation": "Chicken pieces marinated in spices, coated with flour batter, and deep-fried until crispy. Local versions include spicy marinades with chili and garlic.",
+        "best_time": "Lunch, dinner, snacks",
+        "health_tips": [
+            "⚠️ Very high in calories and fat",
+            "✓ Good protein content",
+            "Remove skin to reduce fat",
+            "Consume rarely, choose grilled alternatives",
+            "High sodium content"
+        ],
+        "vitamins": "B vitamins, Protein",
+        "serving_size": "100g",
+        "popular_variants": "Spicy Fried Chicken, Crispy Chicken, Wings"
     },
-    "haleem": {
-        "calories": 220, "protein": 14, "carbs": 25, "fat": 8, "fiber": 3,
-        "description": "Slow-cooked stew of meat, lentils, wheat, and spices - Ramadan special",
-        "origin": "Dhaka, especially Old Dhaka during Ramadan",
-        "preparation": "Meat, wheat, barley, and lentils slow-cooked for 7-8 hours until thick paste-like consistency. Garnished with fried onions, mint, lemon.",
-        "best_time": "Iftar during Ramadan",
-        "health_tips": "Very nutritious and filling. High protein and fiber for sustained energy. Perfect for breaking fast.",
-        "vitamins": "Iron, B vitamins, Zinc, Magnesium",
-        "serving_size": "1 bowl (200g) = 440 calories",
-        "popular_variants": "Beef Haleem, Mutton Haleem, Chicken Haleem"
-    },
-    "hilsha_fish": {
-        "calories": 310, "protein": 22, "carbs": 0, "fat": 25, "fiber": 0,
-        "description": "National fish of Bangladesh - prized for rich, oily flesh",
-        "origin": "Padma River, Meghna River, coastal regions",
-        "preparation": "Steamed with mustard paste, cooked in curry with minimal spices to preserve flavor, or fried with turmeric.",
-        "best_time": "Monsoon season (June-September) when it's most flavorful",
-        "health_tips": "Extremely high in Omega-3 fatty acids. Excellent for heart and brain. High healthy fat content. Good for pregnant women.",
-        "vitamins": "Omega-3, D, B12, Selenium, Calcium",
-        "serving_size": "1 piece (100g) = 310 calories",
-        "popular_variants": "Ilish Bhapa, Shorshe Ilish, Ilish Bhaja"
+    "fuchka": {
+        "calories": 125, "protein": 3.8, "carbs": 22.0, "fat": 2.5, "fiber": 2.8,
+        "description": "Crispy hollow puris with spiced tamarind water",
+        "origin": "Street food popular everywhere, especially Dhaka and Chittagong",
+        "preparation": "Crispy hollow puris filled with spiced tamarind water, boiled chickpeas, potatoes, onions, and coriander. The tangy, spicy water is the key element.",
+        "best_time": "Evening snacks",
+        "health_tips": [
+            "✓ Relatively low in calories",
+            "⚠️ Hygiene concerns with street vendors",
+            "Ensure clean water is used",
+            "Good source of carbs for energy",
+            "Tamarind aids digestion"
+        ],
+        "vitamins": "Vitamin C, Iron",
+        "serving_size": "100g",
+        "popular_variants": "Fuchka, Puchka, Golgappa"
     },
     "jalebi": {
-        "calories": 380, "protein": 3, "carbs": 60, "fat": 15, "fiber": 0,
+        "calories": 425, "protein": 3.5, "carbs": 65.0, "fat": 16.0, "fiber": 0.5,
         "description": "Deep-fried spiral-shaped sweet soaked in sugar syrup",
-        "origin": "Old Dhaka, popular across Bangladesh",
-        "preparation": "Fermented batter piped in spirals into hot oil, fried until crispy, immediately soaked in warm sugar syrup flavored with saffron.",
+        "origin": "Popular sweet across Bangladesh, especially during festivals",
+        "preparation": "Batter made from refined flour fermented overnight, then piped in circular shapes into hot oil and deep-fried. Immediately soaked in sugar syrup flavored with cardamom and saffron.",
         "best_time": "Special occasions, festivals, weddings",
-        "health_tips": "⚠️ Very high in sugar and calories. Occasional treat only. Not suitable for diabetics. Consume in small portions.",
-        "vitamins": "Minimal nutritional value - primarily sugar and fat",
-        "serving_size": "2 pieces (100g) = 380 calories",
+        "health_tips": [
+            "⚠️ Extremely high in sugar and calories",
+            "⚠️ Deep-fried, high in unhealthy fats",
+            "⚠️ Not suitable for diabetics",
+            "Consume only on special occasions",
+            "Can cause blood sugar spikes"
+        ],
+        "vitamins": "Minimal nutritional value",
+        "serving_size": "100g",
         "popular_variants": "Crispy Jalebi, Paneer Jalebi, Imarti"
     },
-    "kabab": {
-        "calories": 250, "protein": 20, "carbs": 8, "fat": 16, "fiber": 1,
-        "description": "Spiced minced meat skewers, grilled or fried",
-        "origin": "Dhaka, Chittagong - Mughal influence",
-        "preparation": "Minced meat mixed with spices, onions, eggs, shaped into patties or skewers, then grilled over charcoal or shallow fried.",
-        "best_time": "Snacks, iftar, dinner appetizer",
-        "health_tips": "High protein for muscle building. Choose grilled over fried. Good source of iron and B vitamins.",
-        "vitamins": "B12, B6, Iron, Zinc, Selenium",
-        "serving_size": "2 pieces (100g) = 250 calories",
-        "popular_variants": "Shami Kabab, Seekh Kabab, Chapli Kabab, Shish Kabab"
+    "jhalmuri": {
+        "calories": 280, "protein": 6.5, "carbs": 52.0, "fat": 5.5, "fiber": 4.2,
+        "description": "Spicy puffed rice snack with vegetables and peanuts",
+        "origin": "Popular street snack in Dhaka, Chittagong, and all urban areas",
+        "preparation": "Puffed rice mixed with chopped onions, tomatoes, green chilies, mustard oil, chanachur, peanuts, and coriander. Seasoned with salt and lime juice.",
+        "best_time": "Evening snacks",
+        "health_tips": [
+            "✓ Low in fat and calories",
+            "✓ Good source of fiber",
+            "✓ Contains vegetables and peanuts",
+            "⚠️ Watch portion size as it's easy to overeat",
+            "Nutritious evening snack option"
+        ],
+        "vitamins": "Vitamin C, Iron, Fiber",
+        "serving_size": "100g",
+        "popular_variants": "Masala Muri, Chanachur Muri"
     },
-    "kacchi_biryani": {
-        "calories": 320, "protein": 15, "carbs": 38, "fat": 14, "fiber": 1,
-        "description": "Premium biryani with raw marinated meat and rice cooked together",
-        "origin": "Old Dhaka - specialty of Dhaka city",
-        "preparation": "Raw marinated meat layered with partially cooked rice, sealed with dough, slow-cooked on dum (steam) for 45-60 minutes.",
+    "kotkoti": {
+        "calories": 405, "protein": 7.2, "carbs": 48.0, "fat": 21.0, "fiber": 1.8,
+        "description": "Traditional Bengali sweet made from dried milk and sugar",
+        "origin": "Traditional Bengali sweet from Murshidabad and Dhaka",
+        "preparation": "Made from khoya (dried milk), sugar, and ghee. Mixture is cooked until thick, shaped into round balls, and garnished with nuts or coconut.",
+        "best_time": "Dessert, festivals",
+        "health_tips": [
+            "⚠️ Very high in calories and fat",
+            "⚠️ High sugar content",
+            "Contains some calcium from milk",
+            "Consume sparingly as a festive treat",
+            "Not suitable for weight loss diets"
+        ],
+        "vitamins": "Calcium, Protein",
+        "serving_size": "100g",
+        "popular_variants": "Milk Kotkoti, Khoya Sweets"
+    },
+    "morog_polao": {
+        "calories": 215, "protein": 12.5, "carbs": 28.0, "fat": 6.5, "fiber": 1.2,
+        "description": "Fragrant rice cooked with chicken and aromatic spices",
+        "origin": "Wedding and festive dish, popular in Dhaka and Old Bengal regions",
+        "preparation": "Basmati rice cooked with chicken, ghee, yogurt, onions, and aromatic spices (cinnamon, cardamom, bay leaves, cloves). Chicken is first marinated and then layered with rice.",
+        "best_time": "Special occasions, weddings, lunch",
+        "health_tips": [
+            "✓ Balanced meal with protein and carbs",
+            "✓ Aromatic spices aid digestion",
+            "⚠️ Moderate fat due to ghee",
+            "Control portion size",
+            "Good source of energy for special occasions"
+        ],
+        "vitamins": "B vitamins, Iron, Protein",
+        "serving_size": "100g",
+        "popular_variants": "Morog Polao, Chicken Polao"
+    },
+    "mutton_leg_roast": {
+        "calories": 340, "protein": 26.0, "carbs": 8.5, "fat": 23.0, "fiber": 1.5,
+        "description": "Slow-roasted mutton leg in rich spiced gravy",
+        "origin": "Special occasion dish in Dhaka and urban areas",
+        "preparation": "Mutton leg marinated with yogurt, spices, and herbs, then slow-roasted or pressure-cooked. Finished with fried onions, boiled eggs, and potatoes in a rich gravy.",
         "best_time": "Special occasions, weddings, celebrations",
-        "health_tips": "Rich and calorie-dense. Best for special occasions. Contains high-quality protein and complex carbs.",
-        "vitamins": "B vitamins, Iron, Zinc, Selenium",
-        "serving_size": "1 plate (250g) = 800 calories",
-        "popular_variants": "Beef Kacchi, Mutton Kacchi, Morog Polao"
-    },
-    "kheer": {
-        "calories": 180, "protein": 5, "carbs": 28, "fat": 6, "fiber": 0.5,
-        "description": "Rice pudding dessert with milk, sugar, cardamom, and nuts",
-        "origin": "Popular across Bangladesh - festival special",
-        "preparation": "Rice slow-cooked in milk until creamy, sweetened with sugar, flavored with cardamom, garnished with pistachios and almonds.",
-        "best_time": "Dessert after meals, Eid celebrations",
-        "health_tips": "Good calcium source from milk. Reduce sugar for healthier version. Rich in protein from milk.",
-        "vitamins": "Calcium, Vitamin D, B12, Phosphorus",
-        "serving_size": "1 bowl (150g) = 270 calories",
-        "popular_variants": "Firni, Payesh, Semai"
-    },
-    "korma": {
-        "calories": 200, "protein": 14, "carbs": 10, "fat": 12, "fiber": 1,
-        "description": "Creamy meat curry with yogurt, cream, and ground nuts",
-        "origin": "Dhaka, Old Dhaka - Mughal cuisine heritage",
-        "preparation": "Meat slow-cooked in yogurt-cream gravy with ground cashews, almonds, mild spices. Rich and aromatic.",
-        "best_time": "Special occasions, dinner parties",
-        "health_tips": "Rich in protein and healthy fats from nuts. High calorie - enjoy in moderation. Good occasional indulgence.",
-        "vitamins": "B12, Calcium, Magnesium, Healthy fats",
-        "serving_size": "1 serving (150g) = 300 calories",
-        "popular_variants": "Chicken Korma, Mutton Korma, Vegetable Korma"
-    },
-    "misti_doi": {
-        "calories": 150, "protein": 4, "carbs": 25, "fat": 4, "fiber": 0,
-        "description": "Sweet fermented yogurt - Bengali signature dessert",
-        "origin": "Bogra (famous for its Bogra Doi), popular nationwide",
-        "preparation": "Milk reduced and caramelized with sugar, fermented in clay pots overnight, giving distinctive sweet-tangy flavor.",
-        "best_time": "Dessert, afternoon snack",
-        "health_tips": "Contains probiotics for gut health. Good calcium source. High sugar - consume in moderation.",
-        "vitamins": "Calcium, B12, Probiotics, Phosphorus",
-        "serving_size": "1 cup (150g) = 225 calories",
-        "popular_variants": "Bogra Doi, Chomchom, Rosogolla"
-    },
-    "naan": {
-        "calories": 260, "protein": 8, "carbs": 45, "fat": 5, "fiber": 2,
-        "description": "Leavened flatbread baked in tandoor oven",
-        "origin": "Restaurant culture - Dhaka, Chittagong",
-        "preparation": "Refined flour dough with yeast, stretched and slapped onto walls of hot tandoor oven until puffed and charred spots appear.",
-        "best_time": "Lunch or dinner with curry",
-        "health_tips": "Higher calories than chapati due to refined flour. Choose whole wheat naan for better nutrition.",
-        "vitamins": "B vitamins, Iron, Folate",
-        "serving_size": "1 piece (100g) = 260 calories",
-        "popular_variants": "Butter Naan, Garlic Naan, Keema Naan"
+        "health_tips": [
+            "⚠️ High in calories and saturated fat",
+            "✓ Excellent protein source",
+            "✓ Rich in iron and zinc",
+            "Consume in small portions",
+            "Remove visible fat before eating"
+        ],
+        "vitamins": "B12, Iron, Zinc, Protein",
+        "serving_size": "100g",
+        "popular_variants": "Slow Roast, Pressure Cooked, Oven Roasted"
     },
     "paratha": {
-        "calories": 280, "protein": 6, "carbs": 35, "fat": 14, "fiber": 2,
+        "calories": 320, "protein": 6.8, "carbs": 42.0, "fat": 14.0, "fiber": 2.2,
         "description": "Layered flatbread with oil or ghee",
-        "origin": "Common across Bangladesh - breakfast staple",
-        "preparation": "Wheat dough rolled thin, brushed with oil/ghee, folded multiple times for layers, then shallow fried until crispy and flaky.",
+        "origin": "Popular breakfast item across Bangladesh",
+        "preparation": "Wheat flour dough layered with oil or ghee, rolled thin, and cooked on a griddle until golden and flaky. Can be plain or stuffed with vegetables, eggs, or meat.",
         "best_time": "Breakfast",
-        "health_tips": "Higher fat content than chapati. Limit to occasional breakfast. Pair with protein for balanced meal.",
+        "health_tips": [
+            "⚠️ High in calories and fat",
+            "✓ Provides energy for the day",
+            "Whole wheat version is healthier",
+            "Pair with vegetables for balanced nutrition",
+            "Control oil quantity during cooking"
+        ],
         "vitamins": "B vitamins, Iron, Magnesium",
-        "serving_size": "1 piece (75g) = 210 calories",
+        "serving_size": "100g",
         "popular_variants": "Plain Paratha, Aloo Paratha, Egg Paratha, Mughlai Paratha"
     },
-    "polao": {
-        "calories": 220, "protein": 5, "carbs": 38, "fat": 6, "fiber": 1,
-        "description": "Fragrant spiced rice - lighter version of biryani",
-        "origin": "Popular across Bangladesh",
-        "preparation": "Basmati rice cooked with ghee, whole spices (cinnamon, cardamom, bay leaf), and meat/vegetable stock for aromatic flavor.",
-        "best_time": "Lunch, special occasions",
-        "health_tips": "Lower fat than biryani. Good carb source. Add vegetables for more nutrition. Use less ghee for healthier version.",
-        "vitamins": "B vitamins, Iron",
-        "serving_size": "1 plate (200g) = 440 calories",
-        "popular_variants": "Morog Polao, Vegetable Polao, Tehari"
+    "pera_sondesh": {
+        "calories": 365, "protein": 8.5, "carbs": 55.0, "fat": 12.0, "fiber": 0.3,
+        "description": "Soft cottage cheese sweet shaped into rounds",
+        "origin": "Originated in West Bengal, popular in Dhaka and across Bangladesh",
+        "preparation": "Chhana (cottage cheese) kneaded with sugar and cooked until thick. Shaped into small round sweets and garnished with nuts or cardamom.",
+        "best_time": "Dessert, festivals",
+        "health_tips": [
+            "⚠️ High in sugar and calories",
+            "✓ Contains protein from milk",
+            "✓ Source of calcium",
+            "Consume in moderation",
+            "Better than deep-fried sweets"
+        ],
+        "vitamins": "Calcium, Protein",
+        "serving_size": "100g",
+        "popular_variants": "Sandesh, Kachagolla, Nolen Gurer Sandesh"
     },
-    "pitha": {
-        "calories": 200, "protein": 4, "carbs": 35, "fat": 6, "fiber": 1,
-        "description": "Traditional rice cakes - winter specialty",
-        "origin": "Rural Bengal, winter festivals (Poush Parbon)",
-        "preparation": "Rice flour mixed with jaggery/coconut, shaped and steamed, fried, or cooked on griddle. Many regional varieties.",
-        "best_time": "Winter season, breakfast, snacks",
-        "health_tips": "Traditional snack, moderate calories. Made with rice flour - gluten-free. Healthier than deep-fried snacks when steamed.",
-        "vitamins": "B vitamins, Iron (from jaggery)",
-        "serving_size": "2 pieces (100g) = 200 calories",
-        "popular_variants": "Chitoi Pitha, Bhapa Pitha, Patishapta, Nakshi Pitha"
+    "peyaju": {
+        "calories": 285, "protein": 6.2, "carbs": 35.0, "fat": 13.0, "fiber": 3.5,
+        "description": "Onion and lentil fritters",
+        "origin": "Popular iftar item during Ramadan, common across Bangladesh",
+        "preparation": "Sliced onions mixed with lentils (dal), rice flour, spices, and green chilies, formed into fritters and deep-fried until crispy.",
+        "best_time": "Iftar, evening snacks",
+        "health_tips": [
+            "⚠️ Deep-fried, high in calories",
+            "✓ Contains onions with antioxidants",
+            "✓ Lentils provide protein",
+            "Drain excess oil before eating",
+            "Good energy source for breaking fast"
+        ],
+        "vitamins": "Protein, Fiber, Iron",
+        "serving_size": "100g",
+        "popular_variants": "Onion Peyaju, Mixed Dal Peyaju"
     },
-    "rasmalai": {
-        "calories": 280, "protein": 8, "carbs": 35, "fat": 12, "fiber": 0,
+    "pizza": {
+        "calories": 285, "protein": 12.0, "carbs": 36.0, "fat": 10.0, "fiber": 2.3,
+        "description": "Baked dough base with cheese, sauce, and toppings",
+        "origin": "Urban fast food centers, popular in Dhaka and Chittagong",
+        "preparation": "Dough base topped with tomato sauce, cheese, and various toppings (vegetables, chicken, beef), baked in an oven until cheese melts and crust is crispy.",
+        "best_time": "Lunch, dinner, parties",
+        "health_tips": [
+            "⚠️ High in calories and sodium",
+            "✓ Contains calcium from cheese",
+            "Choose thin crust and more vegetables",
+            "Limit cheese and processed meats",
+            "Consume occasionally"
+        ],
+        "vitamins": "Calcium, Protein, B vitamins",
+        "serving_size": "100g",
+        "popular_variants": "Margherita, Pepperoni, Chicken Pizza, Veggie Pizza"
+    },
+    "puli_pitha": {
+        "calories": 265, "protein": 5.8, "carbs": 45.0, "fat": 7.5, "fiber": 2.1,
+        "description": "Rice flour dumplings with sweet coconut filling",
+        "origin": "Traditional winter dessert across rural and urban Bangladesh",
+        "preparation": "Rice flour dough shaped into dumplings, filled with sweet coconut and jaggery mixture, then steamed or boiled in sweetened milk.",
+        "best_time": "Winter season, dessert",
+        "health_tips": [
+            "✓ Steamed, not fried - healthier option",
+            "✓ Contains coconut with healthy fats",
+            "⚠️ High in sugar from jaggery",
+            "Traditional winter comfort food",
+            "Good source of quick energy"
+        ],
+        "vitamins": "Iron (from jaggery), Fiber",
+        "serving_size": "100g",
+        "popular_variants": "Dudh Puli, Chitoi Pitha, Patishapta"
+    },
+    "rice": {
+        "calories": 130, "protein": 2.7, "carbs": 28.0, "fat": 0.3, "fiber": 0.4,
+        "description": "Staple grain of Bangladesh",
+        "origin": "Staple food across entire Bangladesh",
+        "preparation": "Rice grains washed and boiled in water until soft. Can be cooked plain or with salt. Brown rice is also becoming popular.",
+        "best_time": "Every meal - breakfast, lunch, dinner",
+        "health_tips": [
+            "✓ Primary energy source",
+            "✓ Gluten-free grain",
+            "✓ Easy to digest",
+            "Choose brown rice for more fiber",
+            "Control portion size for weight management",
+            "Pair with dal and vegetables for balanced meal"
+        ],
+        "vitamins": "B vitamins, Manganese",
+        "serving_size": "100g",
+        "popular_variants": "White Rice, Brown Rice, Basmati Rice"
+    },
+    "roshmalai": {
+        "calories": 340, "protein": 7.5, "carbs": 48.0, "fat": 14.0, "fiber": 0.2,
         "description": "Soft cheese patties in sweetened, thickened milk with cardamom",
-        "origin": "Comilla (birthplace of Rasmalai), popular nationwide",
-        "preparation": "Fresh cheese (paneer) shaped into discs, cooked in light syrup, then soaked in reduced milk flavored with saffron and cardamom.",
+        "origin": "Comilla is famous for authentic Roshmalai",
+        "preparation": "Chhana (cottage cheese) shaped into flat discs, boiled in sugar syrup, then soaked in sweetened, cardamom-flavored condensed milk. Garnished with pistachios.",
         "best_time": "Dessert, special occasions, Eid",
-        "health_tips": "⚠️ High sugar and fat. Special occasion dessert. Good calcium from milk and cheese. Enjoy small portions.",
+        "health_tips": [
+            "⚠️ Very high in sugar and calories",
+            "✓ Contains protein and calcium from milk",
+            "⚠️ High in saturated fat",
+            "Consume as an occasional dessert",
+            "Not suitable for diabetics"
+        ],
         "vitamins": "Calcium, Protein, Vitamin D, B12",
-        "serving_size": "2 pieces (100g) = 280 calories",
-        "popular_variants": "Rasgulla, Chamcham, Sandesh"
+        "serving_size": "100g",
+        "popular_variants": "Rasgulla, Chamcham, Comilla Roshmalai"
     },
-    "rezala": {
-        "calories": 190, "protein": 16, "carbs": 8, "fat": 11, "fiber": 1,
-        "description": "White meat curry - Kolkata-style but popular in Bangladesh",
-        "origin": "Dhaka (influenced by Kolkata), Old Dhaka restaurants",
-        "preparation": "Meat marinated in yogurt and spices, cooked in white gravy made with cashew paste, poppy seeds, yogurt, and minimal turmeric.",
-        "best_time": "Dinner, special occasions",
-        "health_tips": "High protein. Yogurt-based makes it easier to digest. Contains probiotics from yogurt. Rich in B vitamins.",
-        "vitamins": "B12, B6, Calcium, Probiotics, Selenium",
-        "serving_size": "1 serving (150g) = 285 calories",
-        "popular_variants": "Chicken Rezala, Mutton Rezala"
+    "rupchanda_fry": {
+        "calories": 245, "protein": 22.0, "carbs": 8.5, "fat": 14.0, "fiber": 0.8,
+        "description": "Fried pomfret fish",
+        "origin": "Popular in coastal regions and urban restaurants",
+        "preparation": "Pomfret fish marinated with turmeric, chili powder, salt, and lemon juice, coated with flour or semolina, and shallow or deep-fried until golden and crispy.",
+        "best_time": "Lunch or dinner",
+        "health_tips": [
+            "✓ Excellent source of protein",
+            "✓ Rich in omega-3 fatty acids",
+            "✓ Contains vitamin D and selenium",
+            "⚠️ Frying increases calorie content",
+            "Choose shallow frying over deep frying"
+        ],
+        "vitamins": "Omega-3, Vitamin D, Selenium, B12",
+        "serving_size": "100g",
+        "popular_variants": "Pomfret Fry, Silver Pomfret"
     },
-    "roti": {
-        "calories": 100, "protein": 3, "carbs": 20, "fat": 1, "fiber": 2,
-        "description": "Simple whole wheat bread - healthiest bread option",
-        "origin": "Common across Bangladesh",
-        "preparation": "Whole wheat dough rolled thin, cooked on griddle without oil or with minimal oil. Simple and nutritious.",
-        "best_time": "Any meal",
-        "health_tips": "Healthiest bread choice. Low fat, good fiber. Best for weight management and diabetics. Provides sustained energy.",
-        "vitamins": "B vitamins, Iron, Magnesium, Fiber",
-        "serving_size": "1 piece (40g) = 40 calories",
-        "popular_variants": "Tandoori Roti, Rumali Roti, Chapati"
+    "shami_kabab": {
+        "calories": 255, "protein": 18.5, "carbs": 12.0, "fat": 15.0, "fiber": 2.5,
+        "description": "Minced meat patties with chana dal",
+        "origin": "Mughlai dish popular in Dhaka, especially Old Dhaka",
+        "preparation": "Minced meat (beef or mutton) cooked with chana dal, onions, ginger, garlic, and spices until soft. Mashed, shaped into patties, and shallow-fried.",
+        "best_time": "Snacks, iftar, dinner appetizer",
+        "health_tips": [
+            "✓ High protein content",
+            "✓ Contains dal providing fiber",
+            "⚠️ Moderate to high fat content",
+            "Good source of iron and zinc",
+            "Choose lean meat to reduce fat"
+        ],
+        "vitamins": "B12, B6, Iron, Zinc, Protein",
+        "serving_size": "100g",
+        "popular_variants": "Shami Kabab, Chapli Kabab, Seekh Kabab"
     },
-    "samosa": {
-        "calories": 260, "protein": 5, "carbs": 30, "fat": 14, "fiber": 2,
-        "description": "Triangular fried pastry with spiced potato/meat filling",
-        "origin": "Popular street food across Bangladesh",
-        "preparation": "Thin pastry dough filled with spiced mashed potatoes or minced meat, shaped into triangles, deep-fried until golden and crispy.",
-        "best_time": "Evening snack, iftar",
-        "health_tips": "⚠️ Deep fried - high in trans fats. Occasional treat. Choose baked version or air-fried. Limit consumption for heart health.",
-        "vitamins": "Vitamin C (from potatoes), B vitamins, Iron",
-        "serving_size": "2 pieces (100g) = 260 calories",
-        "popular_variants": "Vegetable Samosa, Meat Samosa, Chicken Samosa"
+    "shawarma": {
+        "calories": 265, "protein": 16.5, "carbs": 22.0, "fat": 12.0, "fiber": 2.8,
+        "description": "Grilled meat wrapped in flatbread with vegetables",
+        "origin": "Popular street and fast food in Dhaka and Chittagong",
+        "preparation": "Marinated chicken or beef grilled on a vertical rotisserie, thinly sliced, and wrapped in flatbread with vegetables, pickles, and garlic sauce or tahini.",
+        "best_time": "Lunch, dinner, snacks",
+        "health_tips": [
+            "✓ Good protein source",
+            "✓ Contains vegetables",
+            "⚠️ Sauces add extra calories",
+            "Choose chicken over beef for less fat",
+            "Request less sauce to reduce calories"
+        ],
+        "vitamins": "B vitamins, Protein, Fiber",
+        "serving_size": "100g",
+        "popular_variants": "Chicken Shawarma, Beef Shawarma, Mixed Shawarma"
     },
-    "shingara": {
-        "calories": 150, "protein": 3, "carbs": 18, "fat": 8, "fiber": 1,
-        "description": "Smaller, crispier version of samosa - Bengali street food icon",
-        "origin": "Street food culture - Dhaka, Chittagong, everywhere",
-        "preparation": "Similar to samosa but smaller, with thinner crust and spicier filling. Served with tamarind chutney or green chili.",
+    "shorshe_ilish": {
+        "calories": 310, "protein": 20.5, "carbs": 4.5, "fat": 24.0, "fiber": 1.5,
+        "description": "Hilsa fish cooked in mustard sauce - National dish",
+        "origin": "National dish of Bangladesh, especially popular in rainy season",
+        "preparation": "Hilsa fish cooked in mustard paste gravy with green chilies, turmeric, and mustard oil. The mustard paste is the key ingredient giving the dish its signature flavor.",
+        "best_time": "Lunch or dinner, especially during monsoon",
+        "health_tips": [
+            "✓ Extremely rich in omega-3 fatty acids",
+            "✓ Excellent protein source",
+            "✓ Mustard has anti-inflammatory properties",
+            "✓ Good for heart health",
+            "⚠️ High in fat (healthy fats)",
+            "Contains small bones - eat carefully"
+        ],
+        "vitamins": "Omega-3, Vitamin D, B12, Selenium",
+        "serving_size": "100g",
+        "popular_variants": "Shorshe Ilish, Ilish Bhapa, Ilish Bhaja"
+    },
+    "singara": {
+        "calories": 262, "protein": 5.5, "carbs": 32.0, "fat": 12.5, "fiber": 3.2,
+        "description": "Triangular fried pastry with spiced potato filling",
+        "origin": "Popular snack across Bangladesh, especially as tea-time snack",
+        "preparation": "Triangular pastry filled with spiced potatoes, peas, onions, and sometimes minced meat. Deep-fried until golden and crispy.",
         "best_time": "Evening snack with tea",
-        "health_tips": "Similar to samosa - fried snack. Occasional indulgence. Try air-fried or baked versions at home.",
+        "health_tips": [
+            "⚠️ Deep-fried, high in calories",
+            "✓ Contains vegetables providing fiber",
+            "Drain excess oil before eating",
+            "Baked version is a healthier option",
+            "Popular tea-time snack in moderation"
+        ],
         "vitamins": "Vitamin C, B vitamins, Potassium",
-        "serving_size": "3 pieces (100g) = 150 calories",
+        "serving_size": "100g",
         "popular_variants": "Aloo Shingara, Beef Shingara, Mixed Shingara"
     },
-    "shutki": {
-        "calories": 350, "protein": 60, "carbs": 0, "fat": 10, "fiber": 0,
-        "description": "Dried fish - protein-dense traditional preservation method",
-        "origin": "Coastal regions - Chittagong, Cox's Bazar",
-        "preparation": "Small fish dried in sun, then fried with onions, garlic, and chilies. Strong, pungent flavor loved by many.",
-        "best_time": "Lunch as side dish with rice",
-        "health_tips": "Extremely high protein! Very high sodium - limit if hypertensive. Rich in omega-3. Strong acquired taste.",
-        "vitamins": "Omega-3, Calcium, Phosphorus, B12, D",
-        "serving_size": "Small portion (50g) = 175 calories",
-        "popular_variants": "Loitta Shutki, Chingri Shutki, Rupchanda Shutki"
+    "tea": {
+        "calories": 35, "protein": 0.5, "carbs": 7.0, "fat": 1.2, "fiber": 0.0,
+        "description": "Most popular beverage in Bangladesh",
+        "origin": "Most popular beverage across all regions of Bangladesh",
+        "preparation": "Black tea leaves boiled with water, milk, and sugar. Some add ginger, cardamom, or cinnamon for flavor. Sylhet region is famous for seven-layer tea.",
+        "best_time": "Any time - morning, afternoon, evening",
+        "health_tips": [
+            "✓ Contains antioxidants from tea leaves",
+            "✓ May boost metabolism",
+            "⚠️ Excess sugar adds empty calories",
+            "Reduce sugar for health benefits",
+            "Green tea is a healthier alternative",
+            "Limit to 2-3 cups daily"
+        ],
+        "vitamins": "Antioxidants, Caffeine",
+        "serving_size": "100ml (with milk and sugar)",
+        "popular_variants": "Black Tea, Milk Tea, Seven-Layer Tea, Green Tea"
     },
-    "tehari": {
-        "calories": 280, "protein": 12, "carbs": 40, "fat": 10, "fiber": 1,
-        "description": "Yellow rice with beef - Old Dhaka specialty",
-        "origin": "Old Dhaka (originated as budget-friendly biryani)",
-        "preparation": "Beef cooked with mustard oil and spices, rice cooked separately with turmeric for yellow color, then mixed together.",
-        "best_time": "Lunch",
-        "health_tips": "High carbs and protein - good energy food. Contains turmeric (anti-inflammatory). Watch fat content from beef.",
-        "vitamins": "B vitamins, Iron, Zinc, Curcumin (from turmeric)",
-        "serving_size": "1 plate (250g) = 700 calories",
-        "popular_variants": "Beef Tehari, Mutton Tehari"
-    },
-    "vorta": {
-        "calories": 80, "protein": 2, "carbs": 8, "fat": 5, "fiber": 2,
-        "description": "Mashed vegetable or fish side dish with mustard oil and chilies",
-        "origin": "Rural Bengal, traditional home cooking",
-        "preparation": "Vegetables (eggplant, potato) or small fish boiled/roasted, then mashed with raw mustard oil, onions, green chilies, and salt.",
-        "best_time": "Lunch or dinner as side dish",
-        "health_tips": "Very low calorie and nutritious. Vegetable vortas are excellent fiber sources. Mustard oil has omega-3.",
-        "vitamins": "Varies by ingredient - usually Vitamin C, Potassium, Fiber",
-        "serving_size": "1 serving (100g) = 80 calories",
-        "popular_variants": "Begun Vorta (eggplant), Aloo Vorta (potato), Shutki Vorta, Ilish Vorta"
+    "tikka": {
+        "calories": 220, "protein": 24.0, "carbs": 6.5, "fat": 11.0, "fiber": 1.2,
+        "description": "Grilled marinated chicken pieces",
+        "origin": "Popular appetizer in restaurants across Bangladesh",
+        "preparation": "Chicken pieces marinated in yogurt, lemon juice, ginger-garlic paste, and spices (cumin, coriander, garam masala), then grilled or baked in a tandoor oven.",
+        "best_time": "Appetizer, snacks, dinner",
+        "health_tips": [
+            "✓ High protein, low carb option",
+            "✓ Grilled/baked, not fried - healthier",
+            "✓ Yogurt marinade aids digestion",
+            "✓ Good for muscle building",
+            "Excellent choice for weight management"
+        ],
+        "vitamins": "B vitamins, Protein, Selenium",
+        "serving_size": "100g",
+        "popular_variants": "Chicken Tikka, Tikka Masala, Tandoori Tikka"
     }
 }
 
@@ -721,7 +967,7 @@ def get_nutrition(food_name):
         "origin": "Bangladesh",
         "preparation": "Traditional Bengali cooking method",
         "best_time": "Lunch or dinner",
-        "health_tips": "Enjoy in moderation as part of a balanced diet.",
+        "health_tips": ["Nutrition information not available in database", "Enjoy in moderation as part of a balanced diet"],
         "vitamins": "Various nutrients",
         "serving_size": "Standard serving",
         "popular_variants": "Multiple regional variations"
@@ -1215,7 +1461,12 @@ def main():
                     st.markdown(f"<div class='info-section'>{nutrition['preparation']}</div>", unsafe_allow_html=True)
                     
                     st.markdown("### 💡 Health Tips")
-                    st.success(nutrition['health_tips'])
+                    # Handle health_tips as either list or string
+                    if isinstance(nutrition.get('health_tips'), list):
+                        for tip in nutrition['health_tips']:
+                            st.markdown(f"• {tip}")
+                    else:
+                        st.success(nutrition['health_tips'])
                     
                     st.markdown("### 🍽️ Popular Variants")
                     st.markdown(f"_{nutrition['popular_variants']}_")
@@ -1248,7 +1499,13 @@ def main():
                             st.markdown(f"**Description:** {food_data['description']}")
                             st.markdown(f"**Origin:** {food_data['origin']}")
                             st.markdown(f"**Protein:** {food_data['protein']}g | **Carbs:** {food_data['carbs']}g | **Fat:** {food_data['fat']}g")
-                            st.markdown(f"**Health Tips:** {food_data['health_tips']}")
+                            # Handle health_tips as either list or string
+                            if isinstance(food_data.get('health_tips'), list):
+                                st.markdown("**Health Tips:**")
+                                for tip in food_data['health_tips']:
+                                    st.markdown(f"  • {tip}")
+                            else:
+                                st.markdown(f"**Health Tips:** {food_data['health_tips']}")
     
     # Footer
     st.markdown("---")

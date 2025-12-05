@@ -1206,25 +1206,86 @@ def main():
     
     # Footer
     st.markdown("---")
-    # Enhanced Footer
-    st.markdown("<br><br>", unsafe_allow_html=True)
+    st.markdown("<br>", unsafe_allow_html=True)
+    
+    # Footer with tabs for About, How it Works, Privacy Policy
+    footer_tabs = st.tabs(["📖 About", "⚙️ How It Works", "🔒 Privacy Policy"])
+    
+    with footer_tabs[0]:
+        st.markdown("""
+        ### About This App
+        
+        **Bangladeshi Food Classifier** is an AI-powered application developed as part of our **Final Year Design Project (FYDP)**.
+        
+        #### Key Features:
+        - 🍽️ **Food Recognition**: Identify Bangladeshi food items from images
+        - 📊 **Nutrition Analysis**: Get detailed nutritional information for detected foods
+        - 🥗 **Health Insights**: Receive health tips and dietary recommendations
+        - 🎯 **High Accuracy**: Powered by deep learning models trained on local cuisine
+        
+        #### Project Goal:
+        This application aims to help users make informed dietary choices by providing instant 
+        nutritional information about Bangladeshi food items through advanced computer vision technology.
+        """)
+    
+    with footer_tabs[1]:
+        st.markdown("""
+        ### How It Works
+        
+        #### 🔍 Detection Process:
+        1. **Upload Image**: Choose a food image from your device
+        2. **AI Analysis**: Our deep learning model processes the image
+        3. **Food Recognition**: The system identifies the food category
+        4. **Nutrition Info**: Detailed nutritional data is displayed
+        
+        #### 🍛 Supported Categories:
+        The app can detect **35 categories of Bangladeshi local food**, including:
+        - Traditional dishes (Morog Polao, Bhapa, Shorshe Ilish, etc.)
+        - Street food (Fuchka, Singara, Jalebi, etc.)
+        - Sweets (Chomchom, Roshmalai, Pera Sondesh, etc.)
+        - Common items (Rice, Dal, Chicken, Tea, etc.)
+        
+        #### 🎯 Features:
+        - **Multi-Image Analysis**: Upload multiple images for ensemble prediction
+        - **Confidence Levels**: Adjust detection sensitivity (30-90%)
+        - **Test-Time Augmentation**: Enhanced accuracy through multiple predictions
+        
+        ⚠️ **Note**: This app is designed specifically for Bangladeshi local food only.
+        """)
+    
+    with footer_tabs[2]:
+        st.markdown("""
+        ### Privacy Policy
+        
+        #### 👥 Development Team:
+        - **Masud Rana Mamun**
+        - **Momen Miah**
+        
+        #### 📜 Terms of Use:
+        - ✅ **Free to Use**: This application is completely free for everyone
+        - ✅ **No Copyright Restrictions**: Feel free to use and share
+        - 🔒 **Privacy**: Images are processed locally and not stored on servers
+        - 📊 **Data Usage**: No personal data is collected or shared
+        
+        #### 🎓 Academic Project:
+        This is a Final Year Design Project (FYDP) created for educational purposes.
+        
+        #### 📧 Contact:
+        For questions or feedback, please reach out through GitHub.
+        
+        ---
+        **© 2025 Bangladeshi Food Classifier | All Rights Reserved**
+        """)
+    
+    # Footer Bottom
+    st.markdown("<br>", unsafe_allow_html=True)
     st.markdown(
         """
         <div style='background: rgba(255, 255, 255, 0.05); backdrop-filter: blur(10px); 
-                    border-top: 1px solid rgba(255, 255, 255, 0.1); padding: 2rem; 
-                    text-align: center; margin-top: 3rem; border-radius: 15px;'>
-            <p style='color: #b0b0b0; margin-bottom: 1rem; font-size: 0.9rem;'>
-                🍛 Bangladeshi Food Classifier &copy; 2025
-            </p>
-            <p style='margin: 0.5rem 0;'>
-                Developed by 
-                <a href='https://github.com/MasudBinMazid' target='_blank' 
-                   style='color: #667eea; text-decoration: none; font-weight: 600;'>
-                    Masud
-                </a>
-            </p>
-            <p style='color: #808080; font-size: 0.85rem; margin-top: 1rem;'>
-                Powered by PyTorch • Deep Learning • Computer Vision
+                    border-top: 1px solid rgba(255, 255, 255, 0.1); padding: 1.5rem; 
+                    text-align: center; border-radius: 15px;'>
+            <p style='color: #b0b0b0; margin: 0; font-size: 0.9rem;'>
+                🍛 Bangladeshi Food Classifier &copy; 2025 | Powered by PyTorch • Deep Learning • Computer Vision
             </p>
         </div>
         """,
